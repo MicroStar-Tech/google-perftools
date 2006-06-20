@@ -1,0 +1,11 @@
+--- src/malloc_hook.cc.orig	2006-04-19 04:31:07.000000000 +0900
++++ src/malloc_hook.cc	2006-06-12 13:40:55.000000000 +0900
+@@ -115,7 +115,7 @@
+                         int fd, __off64_t offset) __THROW {
+ 
+   void *result;
+-  result = syscall(SYS_mmap, start, length, prot, flags, fd, offset);
++  result = (void*)syscall(SYS_mmap, start, length, prot, flags, fd, offset);
+   MallocHook::InvokeMmapHook(result, start, length, prot, flags, fd, offset);
+   return result;
+ }

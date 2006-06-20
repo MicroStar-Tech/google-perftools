@@ -1,4 +1,14 @@
-google-perftools (0.7) unstable; urgency=low
+google-perftools (0.7-2) unstable; urgency=low
+
+  * Make a patch (debian/patches/thread_lister.c.diff) for FTBFS: error:
+    conflicting types for 'ResumeAllProcessThreads' (Closes: #370449)
+  * Make a patch (debian/patches/malloc_hook.cc.diff) for FTBFS:
+    src/malloc_hook.cc:118: error: invalid conversion from 'long int' to
+    'void*' (Closes: #370802)
+
+ -- Daigo Moriwaki <daigo@debian.org>  Mon, 12 Jun 2006 20:00:35 +0900
+
+google-perftools (0.7-1) unstable; urgency=low
 
   * New upstream release.
 
