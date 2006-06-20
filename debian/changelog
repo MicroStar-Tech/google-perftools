@@ -1,3 +1,11 @@
+google-perftools (0.8-1) UNRELEASED; urgency=low
+
+  * Remove the patches (thread_lister.c.diff and malloc_hook.cc.diff) that
+    were included in the previous release because the upstream has fixed the
+    issues.
+
+ -- Daigo Moriwaki <daigo@debian.org>  Tue, 20 Jun 2006 22:20:58 +0900
+
 google-perftools (0.7-2) unstable; urgency=low
 
   * Make a patch (debian/patches/thread_lister.c.diff) for FTBFS: error:
