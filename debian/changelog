@@ -1,4 +1,4 @@
-google-perftools (0.8-1) UNRELEASED; urgency=low
+google-perftools (0.8-1) unstable; urgency=low
 
   * Remove the patches (thread_lister.c.diff and malloc_hook.cc.diff) that
     were included in the previous release because the upstream has fixed the
