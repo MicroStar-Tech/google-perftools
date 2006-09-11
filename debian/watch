@@ -2,5 +2,6 @@
 # Rename this file to "watch" and then you can run the "uscan" command
 # to check for upstream updates and more.
 # Site		Directory		Pattern			Version	Script
+# http://prdownloads.sourceforge.net/goog-perftools/
 version=2
 http://sf.net/google-perftools/ google-perftools-(.*)\.tar\.gz

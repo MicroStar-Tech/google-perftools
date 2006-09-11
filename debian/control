@@ -1,7 +1,7 @@
 Source: google-perftools
 Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
-Build-Depends: cdbs, debhelper (>> 5), binutils
+Build-Depends: cdbs, patchutils, debhelper (>> 5), binutils
 Standards-Version: 3.7.2
 
 Package: libgoogle-perftools-dev

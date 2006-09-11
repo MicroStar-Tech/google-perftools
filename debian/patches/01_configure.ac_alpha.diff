@@ -1,0 +1,11 @@
+--- debian/configure.ac.orig	2006-06-14 23:38:55.000000000 +0200
++++ debian/configure.ac	2006-08-22 22:02:50.000000000 +0200
+@@ -44,7 +44,8 @@
+                   struct sigcontext.rip,
+                   struct sigcontext.sc_ip,
+                   struct siginfo.si_faddr,
+-		  struct sigcontext.regs->nip],,,
++		  struct sigcontext.regs->nip,
++		  struct sigcontext.sc_pc],,,
+                  [#include <signal.h>])
+

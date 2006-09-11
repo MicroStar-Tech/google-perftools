@@ -1,3 +1,11 @@
+google-perftools (0.8-2) unstable; urgency=low
+
+  * Make pathces for FTBFS (alpha). Thanks to Falk Hueffner. (Closes: #384236)
+    (debian/patches/01_configure.ac_alpha.diff,
+     debian/patches/02_profiler.cc_alpha.diff)
+
+ -- Daigo Moriwaki <daigo@debian.org>  Tue, 20 Jun 2006 23:05:05 +0900
+
 google-perftools (0.8-1) unstable; urgency=low
 
   * Remove the patches (thread_lister.c.diff and malloc_hook.cc.diff) that
