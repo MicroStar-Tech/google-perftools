@@ -1,3 +1,11 @@
+google-perftools (0.8-3) unstable; urgency=low
+
+  * Use DEB_AUTO_UPDATE_AUTOCONF to rebuild configure from patched
+    configure.ac. 
+  * Fixed debian/watch file.
+
+ -- Daigo Moriwaki <daigo@debian.org>  Thu, 14 Sep 2006 00:09:39 +0900
+
 google-perftools (0.8-2) unstable; urgency=low
 
   * Make pathces for FTBFS (alpha). Thanks to Falk Hueffner. (Closes: #384236)
