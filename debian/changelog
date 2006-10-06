@@ -1,3 +1,11 @@
+google-perftools (0.8-4) unstable; urgency=low
+
+  * Fixed FTBFS (alpha) again. debian/patches/01_configure.ac_alpha.diff is no
+    longer provided. Instead, configure.ac and configure are directly updated
+    to be correctly built. (Closes: #387401)  
+
+ -- Daigo Moriwaki <daigo@debian.org>  Thu, 14 Sep 2006 01:18:10 +0900
+
 google-perftools (0.8-3) unstable; urgency=low
 
   * Use DEB_AUTO_UPDATE_AUTOCONF to rebuild configure from patched
