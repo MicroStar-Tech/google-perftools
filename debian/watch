@@ -4,4 +4,4 @@
 # Site		Directory		Pattern			Version	Script
 # http://prdownloads.sourceforge.net/goog-perftools/
 version=3
-http://sourceforge.net/project/showfiles.php?group_id=133355&package_id=147260          .*/google-perftools-(.*)\.tar\.gz\?download         debian          uupdate
+http://code.google.com/p/google-perftools/downloads/list          .*/google-perftools-(.*)\.tar\.gz         debian          uupdate
