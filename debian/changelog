@@ -1,3 +1,10 @@
+google-perftools (0.91-1) unstable; urgency=low
+
+  * New upstream release
+  * The hosting site of the upstream has been changed. 
+
+ -- Daigo Moriwaki <daigo@debian.org>  Sat, 12 May 2007 15:56:25 +0900
+
 google-perftools (0.8-5) unstable; urgency=low
 
   * Apply a patch from Yauheni Kaliuta to fix an error, 'sys_mmap' has not
