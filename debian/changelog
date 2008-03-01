@@ -1,3 +1,11 @@
+google-perftools (0.91-2) unstable; urgency=low
+
+  * Because of a file conflict between tau and libgoogle-perftools the 
+    binary pprof is renamed as google-pprof. (Closes: #404001)
+    Great thanks to Michael Mende.
+
+ -- Daigo Moriwaki <daigo@debian.org>  Sat, 01 Mar 2008 16:41:36 +0900
+
 google-perftools (0.91-1) unstable; urgency=low
 
   * New upstream release
