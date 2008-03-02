@@ -1,29 +1,36 @@
 Source: google-perftools
+Section: libs
 Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
 Build-Depends: cdbs, patchutils, debhelper (>> 5), binutils
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
+Homepage: http://code.google.com/p/google-perftools/
 
 Package: libgoogle-perftools-dev
 Section: libdevel
 Architecture: any
-Depends: libgoogle-perftools0 (= ${Source-Version})
+Depends: libgoogle-perftools0 (= ${binary:Version})
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and
  analyze the performance of C++ programs.  This includes an optimized
  thread-caching malloc() and cpu and heap profiling utilities.  The
  devel package contains static and debug libraries and header files
  for developing applications that use the google-perftools package.
- .
- homepage: http://code.google.com/p/google-perftools/
 
-Package: libgoogle-perftools0
+Package: libtcmalloc-minimal0
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
+Description: an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and
- analyze the performance of C++ programs.  This includes an optimized
- thread-caching malloc() and cpu and heap profiling utilities.
- .
- homepage: http://code.google.com/p/google-perftools/
+ analyze the performance of C++ programs. This is a part of that package, 
+ and includes an optimized thread-caching malloc.
+
+Package: libgoogle-perftools0
+Section: libs
+Architecture: i386
+Depends: libtcmalloc-minimal0 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
+ The google-perftools package contains some utilities to improve and 
+ analyze the performance of C++ programs. This includes the full features: 
+ an optimized thread-caching malloc() and cpu and heap profiling utilities.

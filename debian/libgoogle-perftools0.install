@@ -1,2 +1,3 @@
-usr/lib/lib*.so.*
+usr/lib/libprofiler*.so.*
+usr/lib/libtcmalloc.so.*
 usr/bin/google-pprof

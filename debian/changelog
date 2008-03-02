@@ -1,12 +1,22 @@
 google-perftools (0.95.1-1) unstable; urgency=low
 
-  * New upstream release.
+  * New upstream release. (Closes: #425147)
+  * Compiled with GCC 4.3. (Closes: #454841)
+  * debian/watch: can now report upstream's version (Closes: #450294)
   * Because of a file conflict between tau and libgoogle-perftools the
     binary pprof is renamed as google-pprof. (Closes: #404001)
     Great thanks to Michael Mende.
   * debian/rules: autoconf files are now generated at the build time.
+  * Bumped up Standards-Version to 3.7.3, no changes are required.
+  * Splited a new package, libtcmallc_minimal0. The upstream supports
+    this module for wider platforms. So I leave its architecture to be
+    `any'.
+  * libgoogle-perftools0's architecture is now i386. The upstream
+    supports this module for x86 and x86_64. However, x86_64 requires
+    libunwind's development head, which Debian does not have yet.
+  * Removed an unnecessary patch, debian/patches/02_profiler.cc_alpha.diff.
 
- -- Daigo Moriwaki <daigo@debian.org>  Sat, 01 Mar 2008 17:14:55 +0900
+ -- Daigo Moriwaki <daigo@debian.org>  Sun, 02 Mar 2008 23:43:24 +0900
 
 google-perftools (0.91-1) unstable; urgency=low
 

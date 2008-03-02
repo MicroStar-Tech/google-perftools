@@ -1,0 +1,2 @@
+usr/lib/libtcmalloc_minimal*.so.*
+usr/lib/libstacktrace*.so.*
