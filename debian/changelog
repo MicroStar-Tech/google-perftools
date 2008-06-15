@@ -1,4 +1,4 @@
-google-perftools (0.95.1-1) unstable; urgency=low
+google-perftools (0.98-1) unstable; urgency=low
 
   * New upstream release. (Closes: #425147)
   * Compiled with GCC 4.3. (Closes: #454841)
@@ -8,7 +8,7 @@ google-perftools (0.95.1-1) unstable; urgency=low
     Great thanks to Michael Mende.
   * debian/rules: autoconf files are now generated at the build time.
   * Bumped up Standards-Version to 3.7.3, no changes are required.
-  * Splited a new package, libtcmallc_minimal0. The upstream supports
+  * Split a new package, libtcmallc_minimal0. The upstream supports
     this module for wider platforms. So I leave its architecture to be
     `any'.
   * libgoogle-perftools0's architecture is now i386. The upstream

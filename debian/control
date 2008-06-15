@@ -28,7 +28,7 @@ Description: an efficient thread-caching malloc
 
 Package: libgoogle-perftools0
 Section: libs
-Architecture: i386 amd64
+Architecture: i386
 Depends: libtcmalloc-minimal0 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and 
