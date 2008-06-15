@@ -16,7 +16,7 @@ google-perftools (0.95.1-1) unstable; urgency=low
     libunwind's development head, which Debian does not have yet.
   * Removed an unnecessary patch, debian/patches/02_profiler.cc_alpha.diff.
 
- -- Daigo Moriwaki <daigo@debian.org>  Sun, 02 Mar 2008 23:43:24 +0900
+ -- Daigo Moriwaki <daigo@debian.org>  Sun, 15 Jun 2008 23:41:36 +0900
 
 google-perftools (0.91-1) unstable; urgency=low
 
