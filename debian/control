@@ -2,14 +2,14 @@ Source: google-perftools
 Section: libs
 Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
-Build-Depends: cdbs, autotools-dev, autoconf, m4, patchutils, debhelper (>> 5), binutils
-Standards-Version: 3.7.3
+Build-Depends: cdbs, autotools-dev, autoconf, m4, patchutils, debhelper (>= 7.0.0), binutils, libunwind7-dev [!i386]
+Standards-Version: 3.8.3
 Homepage: http://code.google.com/p/google-perftools/
 
 Package: libgoogle-perftools-dev
 Section: libdevel
-Architecture: any
-Depends: libgoogle-perftools0 (= ${binary:Version})
+Architecture: i386 amd64
+Depends: libgoogle-perftools0 (= ${binary:Version}), libtcmalloc-minimal0 (= ${binary:Version})
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and
  analyze the performance of C++ programs.  This includes an optimized
@@ -19,18 +19,42 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
 
 Package: libtcmalloc-minimal0
 Section: libs
-Architecture: any
+Architecture: i386 amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and
  analyze the performance of C++ programs. This is a part of that package, 
  and includes an optimized thread-caching malloc.
 
+Package: libtcmalloc-minimal0-dbg
+Section: debug
+Priority: extra
+Architecture: i386 amd64
+Depends: libtcmalloc-minimal0 (= ${binary:Version})
+Description: an efficient thread-caching malloc
+ Contains debugging symbols for libtcmalloc-minimal0.
+ .
+ This package is provided primarily to provide a backtrace with names
+ in a debugger, this makes it somewhat easier to interpret core
+ dumps.  Most people will not need this package.
+
 Package: libgoogle-perftools0
 Section: libs
-Architecture: i386
+Architecture: i386 amd64
 Depends: libtcmalloc-minimal0 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and 
  analyze the performance of C++ programs. This includes the full features: 
- an optimized thread-caching malloc() and cpu and heap profiling utilities.
+ an optimized thread-caching malloc() and cpu and heap profiling utilities.o
+
+Package: libgoogle-perftools0-dbg
+Section: debug
+Priority: extra
+Architecture: i386 amd64
+Depends: libgoogle-perftools0 (= ${binary:Version})
+Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
+ Contains debugging symbols for libgoogle-perftools0.
+ .
+ This package is provided primarily to provide a backtrace with names
+ in a debugger, this makes it somewhat easier to interpret core
+ dumps.  Most people will not need this package.

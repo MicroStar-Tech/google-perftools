@@ -14,10 +14,44 @@ include /usr/share/cdbs/1/class/autotools.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
 DEB_AUTO_UPDATE_AUTOCONF = YES
-DEB_DH_INSTALL_SOURCEDIR := $(DEB_DESTDIR)
 DEB_INSTALL_CHANGELOGS_ALL := ChangeLog
 
+lib_dir = usr/lib
+bin_dir = usr/bin
+man_dir = usr/share/man/man1
+
+DEB_INSTALL_DIRS_libtcmalloc-minimal0 += $(lib_dir)
+
+DEB_INSTALL_DIRS_libgoogle-perftools0 += $(lib_dir) $(bin_dir) $(man_dir)
+DEB_INSTALL_DOCS_libgoogle-perftools0 += debian/README.Debian
+DEB_INSTALL_MANPAGES_libgoogle-perftools0 += debian/tmp/$(man_dir)/google-pprof.1
+
+DEB_INSTALL_DIRS_libgoogle-perftools-dev += $(lib_dir) usr/include/google
+DEB_INSTALL_DOCS_libgoogle-perftools-dev += $(DEB_SRCDIR)/doc/* -Xpprof.1
+
+install/libtcmalloc-minimal0::
+	(cd $(CURDIR)/debian/tmp && \
+	    find usr/lib -name 'libtcmalloc_minimal.so.*' -o \
+	                 -name 'libtcmalloc_minimal_debug.so.*') | \
+	    xargs dh_movefiles -p$(cdbs_curpkg)
+
 install/libgoogle-perftools0::
-	mv $(DEB_DESTDIR)/usr/bin/pprof $(DEB_DESTDIR)/usr/bin/google-pprof
-	mv $(DEB_DESTDIR)/usr/share/man/man1/pprof.1 $(DEB_DESTDIR)/usr/share/man/man1/google-pprof.1
-	sed -i -e "s/pprof/google-pprof/g" $(DEB_DESTDIR)/usr/share/man/man1/google-pprof.1
+	(cd $(CURDIR)/debian/tmp/usr/bin && \
+	  mv pprof google-pprof)
+	dh_movefiles -p$(cdbs_curpkg) usr/bin/google-pprof
+	(cd $(CURDIR)/debian/tmp/usr/share/man/man1 && \
+	  mv pprof.1 google-pprof.1 && \
+	sed -i -e "s/pprof/google-pprof/g" google-pprof.1)
+	(cd $(CURDIR)/debian/tmp && \
+	    find usr/lib -name 'libprofiler.so.*' -o \
+	                 -name 'libtcmalloc.so.*' -o \
+	                 -name 'libtcmalloc_debug.so.*' -o \
+			 -name 'libtcmalloc_and_profiler.so.*') | \
+	    xargs dh_movefiles -p$(cdbs_curpkg)
+
+install/libgoogle-perftools-dev::
+	(cd $(CURDIR)/debian/tmp && \
+	    find usr/lib -name '*.a' -o -name '*.so') | \
+	    xargs dh_movefiles -p$(cdbs_curpkg)
+	dh_movefiles -p$(cdbs_curpkg) usr/include/google
+

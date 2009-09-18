@@ -1,8 +1,24 @@
-google-perftools (0.98-2) UNRELEASED; urgency=low
+google-perftools (1.4-1) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * New upstream release. (Closes: #537269)
+  * debian/control:
+    - Bumped up Standards-Version to 3.8.3.
+    - Build-depends on libunwind. (Closes: #487374)
+    - Provides debugging symbol packages: libtcmalloc-minimal0-dbg and
+      libgoogle-perftools0-dbg.
+  * Merged contents of
+    - debian/libgoogle-perftools0.docs
+    - debian/libgoogle-perftools0.manpages
+    - debian/docs
+    - debian/libtcmalloc-minimal0.dirs
+    - debian/libgoogle-perftools-dev.dirs
+    - debian/libtcmalloc-minimal0.install
+    - debian/libgoogle-perftools0.dirs
+    - debian/libgoogle-perftools-dev.install
+    - debian/libgoogle-perftools0.install
+    into debian/rules.
 
- -- Daigo Moriwaki <daigo@debian.org>  Mon, 16 Jun 2008 00:21:24 +0900
+ -- Daigo Moriwaki <daigo@debian.org>  Sat, 19 Sep 2009 00:10:06 +0900
 
 google-perftools (0.98-1) unstable; urgency=low
 
