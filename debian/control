@@ -9,7 +9,7 @@ Homepage: http://code.google.com/p/google-perftools/
 Package: libgoogle-perftools-dev
 Section: libdevel
 Architecture: i386 amd64
-Depends: libgoogle-perftools0 (= ${binary:Version}), libtcmalloc-minimal0 (= ${binary:Version})
+Depends: ${misc:Depends}, libgoogle-perftools0 (= ${binary:Version}), libtcmalloc-minimal0 (= ${binary:Version})
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and
  analyze the performance of C++ programs.  This includes an optimized
@@ -30,7 +30,7 @@ Package: libtcmalloc-minimal0-dbg
 Section: debug
 Priority: extra
 Architecture: i386 amd64
-Depends: libtcmalloc-minimal0 (= ${binary:Version})
+Depends: ${misc:Depends}, libtcmalloc-minimal0 (= ${binary:Version})
 Description: an efficient thread-caching malloc
  Contains debugging symbols for libtcmalloc-minimal0.
  .
@@ -51,7 +51,7 @@ Package: libgoogle-perftools0-dbg
 Section: debug
 Priority: extra
 Architecture: i386 amd64
-Depends: libgoogle-perftools0 (= ${binary:Version})
+Depends: ${misc:Depends}, libgoogle-perftools0 (= ${binary:Version})
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  Contains debugging symbols for libgoogle-perftools0.
  .
