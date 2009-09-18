@@ -2,7 +2,7 @@ google-perftools (1.4-1) unstable; urgency=low
 
   * New upstream release. (Closes: #537269)
   * debian/control:
-    - Bumped up Standards-Version to 3.8.3.
+    - Bumped up Standards-Version to 3.8.2.
     - Build-depends on libunwind. (Closes: #487374)
     - Provides debugging symbol packages: libtcmalloc-minimal0-dbg and
       libgoogle-perftools0-dbg.

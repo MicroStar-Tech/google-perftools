@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
 Build-Depends: cdbs, autotools-dev, autoconf, m4, patchutils, debhelper (>= 7.0.0), binutils, libunwind7-dev [!i386]
-Standards-Version: 3.8.3
+Standards-Version: 3.8.2
 Homepage: http://code.google.com/p/google-perftools/
 
 Package: libgoogle-perftools-dev
