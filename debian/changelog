@@ -1,8 +1,9 @@
-google-perftools (1.4-2) UNRELEASED; urgency=low
+google-perftools (1.4-2) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * debian/control, debian/rules: Added a new package, google-perftools, which
+    contains command line utilities.  (Closes: #547956)
 
- -- Daigo Moriwaki <daigo@debian.org>  Sat, 19 Sep 2009 00:41:16 +0900
+ -- Daigo Moriwaki <daigo@debian.org>  Mon, 26 Oct 2009 20:19:18 +0900
 
 google-perftools (1.4-1) unstable; urgency=low
 

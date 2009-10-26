@@ -22,12 +22,14 @@ man_dir = usr/share/man/man1
 
 DEB_INSTALL_DIRS_libtcmalloc-minimal0 += $(lib_dir)
 
-DEB_INSTALL_DIRS_libgoogle-perftools0 += $(lib_dir) $(bin_dir) $(man_dir)
+DEB_INSTALL_DIRS_libgoogle-perftools0 += $(lib_dir)
 DEB_INSTALL_DOCS_libgoogle-perftools0 += debian/README.Debian
-DEB_INSTALL_MANPAGES_libgoogle-perftools0 += debian/tmp/$(man_dir)/google-pprof.1
 
 DEB_INSTALL_DIRS_libgoogle-perftools-dev += $(lib_dir) usr/include/google
 DEB_INSTALL_DOCS_libgoogle-perftools-dev += $(DEB_SRCDIR)/doc/* -Xpprof.1
+
+DEB_INSTALL_DIRS_google-perftools += $(bin_dir) $(man_dir)
+DEB_INSTALL_MANPAGES_google-perftools += debian/tmp/$(man_dir)/google-pprof.1
 
 install/libtcmalloc-minimal0::
 	(cd $(CURDIR)/debian/tmp && \
@@ -36,12 +38,6 @@ install/libtcmalloc-minimal0::
 	    xargs dh_movefiles -p$(cdbs_curpkg)
 
 install/libgoogle-perftools0::
-	(cd $(CURDIR)/debian/tmp/usr/bin && \
-	  mv pprof google-pprof)
-	dh_movefiles -p$(cdbs_curpkg) usr/bin/google-pprof
-	(cd $(CURDIR)/debian/tmp/usr/share/man/man1 && \
-	  mv pprof.1 google-pprof.1 && \
-	sed -i -e "s/pprof/google-pprof/g" google-pprof.1)
 	(cd $(CURDIR)/debian/tmp && \
 	    find usr/lib -name 'libprofiler.so.*' -o \
 	                 -name 'libtcmalloc.so.*' -o \
@@ -55,3 +51,10 @@ install/libgoogle-perftools-dev::
 	    xargs dh_movefiles -p$(cdbs_curpkg)
 	dh_movefiles -p$(cdbs_curpkg) usr/include/google
 
+install/google-perftools::
+	(cd $(CURDIR)/debian/tmp/usr/bin && \
+	  mv pprof google-pprof)
+	dh_movefiles -p$(cdbs_curpkg) usr/bin/google-pprof
+	(cd $(CURDIR)/debian/tmp/usr/share/man/man1 && \
+	  mv pprof.1 google-pprof.1 && \
+	sed -i -e "s/pprof/google-pprof/g" google-pprof.1)
