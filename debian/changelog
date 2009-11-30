@@ -1,8 +1,12 @@
-google-perftools (1.4-3) UNRELEASED; urgency=low
+google-perftools (1.4-3) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * debian/control: Bumpled up Standards-Version to 3.8.3.
+  * debian/control: google-perftools package now recommends graphviz and gv.
+    (Closes: #507823)
+  * debian/{control|rules}: autoconf and automake will be executed in a build
+    time. (Closes: #558508)
 
- -- Daigo Moriwaki <daigo@debian.org>  Mon, 26 Oct 2009 20:32:39 +0900
+ -- Daigo Moriwaki <daigo@debian.org>  Mon, 30 Nov 2009 21:53:39 +0900
 
 google-perftools (1.4-2) unstable; urgency=low
 
