@@ -4,12 +4,12 @@ Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
 Build-Depends: cdbs, autoconf, automake1.9, libtool, patchutils, debhelper (>= 7.0.0), binutils, libunwind7-dev [!i386]
 Build-Conflicts: autoconf2.13, automake1.4
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://code.google.com/p/google-perftools/
 
 Package: libgoogle-perftools-dev
 Section: libdevel
-Architecture: i386 amd64
+Architecture: i386 amd64 powerpc
 Depends: ${misc:Depends}, libgoogle-perftools0 (= ${binary:Version}), libtcmalloc-minimal0 (= ${binary:Version})
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and
@@ -20,7 +20,7 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
 
 Package: libtcmalloc-minimal0
 Section: libs
-Architecture: i386 amd64
+Architecture: i386 amd64 powerpc
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and
@@ -30,7 +30,7 @@ Description: an efficient thread-caching malloc
 Package: libtcmalloc-minimal0-dbg
 Section: debug
 Priority: extra
-Architecture: i386 amd64
+Architecture: i386 amd64 powerpc
 Depends: ${misc:Depends}, libtcmalloc-minimal0 (= ${binary:Version})
 Description: an efficient thread-caching malloc
  Contains debugging symbols for libtcmalloc-minimal0.
@@ -41,7 +41,7 @@ Description: an efficient thread-caching malloc
 
 Package: libgoogle-perftools0
 Section: libs
-Architecture: i386 amd64
+Architecture: i386 amd64 powerpc
 Depends: libtcmalloc-minimal0 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The google-perftools package contains some utilities to improve and 
@@ -51,7 +51,7 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
 Package: libgoogle-perftools0-dbg
 Section: debug
 Priority: extra
-Architecture: i386 amd64
+Architecture: i386 amd64 powerpc
 Depends: ${misc:Depends}, libgoogle-perftools0 (= ${binary:Version})
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  Contains debugging symbols for libgoogle-perftools0.
@@ -62,7 +62,7 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
 
 Package: google-perftools
 Section: devel
-Architecture: i386 amd64
+Architecture: i386 amd64 powerpc
 Depends: ${shlibs:Depends}, ${misc:Depends}, libgoogle-perftools0
 Recommends: graphviz, gv
 Description: command line utilities to analyze the performance of C++ programs
@@ -73,7 +73,7 @@ Description: command line utilities to analyze the performance of C++ programs
 Package: google-perftools-dbg
 Section: debug
 Priority: extra
-Architecture: i386 amd64
+Architecture: i386 amd64 powerpc
 Depends: ${misc:Depends}, google-perftools (= ${binary:Version})
 Description: command line utilities to analyze the performance of C++ programs
  Contains debugging symbols for google-perftools

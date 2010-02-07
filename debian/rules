@@ -34,6 +34,9 @@ DEB_INSTALL_DOCS_libgoogle-perftools-dev += $(DEB_SRCDIR)/doc/* -Xpprof.1
 DEB_INSTALL_DIRS_google-perftools += $(bin_dir) $(man_dir)
 DEB_INSTALL_MANPAGES_google-perftools += debian/tmp/$(man_dir)/google-pprof.1
 
+pre-build::
+	chmod u+w -R $(CURDIR)
+
 install/libtcmalloc-minimal0::
 	(cd $(CURDIR)/debian/tmp && \
 	    find usr/lib -name 'libtcmalloc_minimal.so.*' -o \

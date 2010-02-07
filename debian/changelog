@@ -1,3 +1,12 @@
+google-perftools (1.5-1) unstable; urgency=low
+
+  * New upstream release (Closes: #521935)
+  * Now this package will be built on i386, amd64 and powerpc
+    (Closes: #387401, #506679, #556908)
+  * debian/control: Bumped up Standards-Version to 3.8.4.
+
+ -- Daigo Moriwaki <daigo@debian.org>  Sun, 07 Feb 2010 09:57:09 +0900
+
 google-perftools (1.4-3) unstable; urgency=low
 
   * debian/control: Bumpled up Standards-Version to 3.8.3.
