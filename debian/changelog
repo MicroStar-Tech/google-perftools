@@ -7,6 +7,9 @@ google-perftools (1.7-1) unstable; urgency=low
     - google-perftools that only includes a perl script is now Architecture:
       all.
     (Closes: #595184)
+    - Bumped up Standards-Version to 3.9.1.
+  * debian/rules: Bumped up the autoconf and automake versions.
+  * debian/copyright: packaged by myself.
 
  -- Daigo Moriwaki <daigo@debian.org>  Sun, 06 Mar 2011 10:35:04 +0900
 
