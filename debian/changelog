@@ -1,17 +1,18 @@
 google-perftools (2.0-1) unstable; urgency=low
 
-  * New upstream release
+  * New upstream release.  (Closes: #663652)
   * debian/watch: Followed the new upstream site.
   * debian/control:
     - Followed the new upstream site.
     - Bumped up Standards-Version to 3.9.3.
+    - google-perftools depends on curl.  (Closes: #630829)
   * debian/copyright:
     - Followed the upstream' changes.
     - Applied copyright-format 1.0.
   * debian/compat:
     - Bumped up the compatibility level to 7.
 
- -- Daigo Moriwaki <daigo@debian.org>  Tue, 13 Mar 2012 11:33:03 +0900
+ -- Daigo Moriwaki <daigo@debian.org>  Sat, 17 Mar 2012 14:38:46 +0900
 
 google-perftools (1.7-1) unstable; urgency=low
 
