@@ -1,7 +1,13 @@
 google-perftools (2.0-1) unstable; urgency=low
 
   * New upstream release
-  * debian/watch: Followed the upstream change.
+  * debian/watch: Followed the new upstream site.
+  * debian/control:
+    - Followed the new upstream site.
+    - Bumped up Standards-Version to 3.9.3.
+  * debian/copyright:
+    - Followed the upstream' changes.
+    - Applied copyright-format 1.0.
 
  -- Daigo Moriwaki <daigo@debian.org>  Tue, 13 Mar 2012 11:33:03 +0900
 
