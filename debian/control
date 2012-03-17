@@ -24,7 +24,7 @@ Package: libtcmalloc-minimal0
 Section: libs
 Architecture: i386 amd64 powerpc
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: an efficient thread-caching malloc
+Description: efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
  utilities to improve and analyze the performance of C++ programs. This is a
  part of that package, and includes an optimized thread-caching malloc.
@@ -34,7 +34,7 @@ Section: debug
 Priority: extra
 Architecture: i386 amd64 powerpc
 Depends: ${misc:Depends}, libtcmalloc-minimal0 (= ${binary:Version})
-Description: an efficient thread-caching malloc
+Description: efficient thread-caching malloc
  Contains debugging symbols for libtcmalloc-minimal0.
  .
  This package is provided primarily to provide a backtrace with names
