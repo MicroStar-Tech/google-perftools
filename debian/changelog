@@ -8,6 +8,8 @@ google-perftools (2.0-1) unstable; urgency=low
   * debian/copyright:
     - Followed the upstream' changes.
     - Applied copyright-format 1.0.
+  * debian/compat:
+    - Bumped up the compatibility level to 7.
 
  -- Daigo Moriwaki <daigo@debian.org>  Tue, 13 Mar 2012 11:33:03 +0900
 
