@@ -7,6 +7,7 @@ google-perftools (2.0-1) unstable; urgency=low
     - Followed the new upstream site.
     - Bumped up Standards-Version to 3.9.3.
     - google-perftools depends on curl.  (Closes: #630829)
+    - Updated the package names to match soname 4.
   * debian/copyright:
     - Followed the upstream' changes.
     - Applied copyright-format 1.0.
