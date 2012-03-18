@@ -23,10 +23,10 @@ lib_dir = usr/lib
 bin_dir = usr/bin
 man_dir = usr/share/man/man1
 
-DEB_INSTALL_DIRS_libtcmalloc-minimal0 += $(lib_dir)
+DEB_INSTALL_DIRS_libtcmalloc-minimal4 += $(lib_dir)
 
-DEB_INSTALL_DIRS_libgoogle-perftools0 += $(lib_dir)
-DEB_INSTALL_DOCS_libgoogle-perftools0 += debian/README.Debian
+DEB_INSTALL_DIRS_libgoogle-perftools4 += $(lib_dir)
+DEB_INSTALL_DOCS_libgoogle-perftools4 += debian/README.Debian
 
 DEB_INSTALL_DIRS_libgoogle-perftools-dev += $(lib_dir) usr/include/google
 DEB_INSTALL_DOCS_libgoogle-perftools-dev += $(DEB_SRCDIR)/doc/* -Xpprof.1
@@ -37,13 +37,13 @@ DEB_INSTALL_MANPAGES_google-perftools += debian/tmp/$(man_dir)/google-pprof.1
 pre-build::
 	chmod u+w -R $(CURDIR)
 
-install/libtcmalloc-minimal0::
+install/libtcmalloc-minimal4::
 	(cd $(CURDIR)/debian/tmp && \
 	    find usr/lib -name 'libtcmalloc_minimal.so.*' -o \
 	                 -name 'libtcmalloc_minimal_debug.so.*') | \
 	    xargs dh_movefiles -p$(cdbs_curpkg)
 
-install/libgoogle-perftools0::
+install/libgoogle-perftools4::
 	(cd $(CURDIR)/debian/tmp && \
 	    find usr/lib -name 'libprofiler.so.*' -o \
 	                 -name 'libtcmalloc.so.*' -o \
