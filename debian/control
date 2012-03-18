@@ -45,6 +45,7 @@ Package: libgoogle-perftools4
 Section: libs
 Architecture: i386 amd64 powerpc
 Depends: libtcmalloc-minimal4 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libgoogle-perftools0
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
  utilities to improve and analyze the performance of C++ programs. This includes
