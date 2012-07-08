@@ -4,6 +4,8 @@ google-perftools (2.0-3) unstable; urgency=low
     a build failure on powerpc, derived from the upstream:
     http://code.google.com/p/gperftools/issues/detail?id=431
     Thanks to James Page <james.page@ubuntu.com>. (Closes: #680305)
+  * debian/control: Bumped up to libunwind8-dev for Build-Depends.
+    (Closes: #680724)
 
  -- Daigo Moriwaki <daigo@debian.org>  Sun, 08 Jul 2012 18:08:36 +0900
 
