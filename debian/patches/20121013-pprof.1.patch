@@ -1,0 +1,11 @@
+--- google-perftools.orig/doc/pprof.1   2012-02-04 04:18:22.000000000 +0900
++++ google-perftools.orig/doc/pprof.1	2012-10-13 20:14:32.000000000 +0900
+@@ -125,7 +125,7 @@
+ .B cpu_profiler.html
+ and is likely installed at one of the following locations:
+ .IP
+-.B /usr/share/gperftools/cpu_profiler.html
++.B /usr/share/doc/libgoogle-perftools-dev/cpuprofile.html
+ .br
+ .B /usr/local/share/gperftools/cpu_profiler.html
+ .PP
