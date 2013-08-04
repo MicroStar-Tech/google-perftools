@@ -1,3 +1,15 @@
+google-perftools (2.1-1) unstable; urgency=low
+
+  * New upstream release. (Closes: #701378)
+  * debian/rules:
+    - Enable tests on amd64 and i386. (Closes: #695293)
+  * debian/control:
+    - Add missing dependency on libunwind8-dev for amd64 architecture
+      to libgoogle-perftools-dev. (Closes: #706860)
+    - Add new architectures: armel armhf. (Closes: #695308)
+
+ -- Daigo Moriwaki <daigo@debian.org>  Sun, 04 Aug 2013 21:21:26 +0900
+
 google-perftools (2.0-4) unstable; urgency=low
 
   * Added debian/patches/20121013-pprof.1.patch: Corrects a link.

@@ -19,6 +19,14 @@ DEB_AUTO_UPDATE_ACLOCAL = $(DEB_AUTO_UPDATE_AUTOMAKE)
 DEB_AUTO_UPDATE_LIBTOOL = pre
 DEB_INSTALL_CHANGELOGS_ALL := ChangeLog
 
+ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
+# List of architectures for which test execution is enabled
+TEST_ARCHS=i386 amd64
+ifneq (,$(findstring $(DEB_HOST_ARCH), $(TEST_ARCHS)))
+DEB_MAKE_CHECK_TARGET := check
+endif # TEST_ARCHS
+endif # nocheck
+
 lib_dir = usr/lib
 bin_dir = usr/bin
 man_dir = usr/share/man/man1

@@ -11,8 +11,8 @@ Vcs-Browser: http://svn.debian.org/viewvc/collab-maint/deb-maint/google-perftool
 
 Package: libgoogle-perftools-dev
 Section: libdevel
-Architecture: i386 amd64 powerpc
-Depends: ${misc:Depends}, libgoogle-perftools4 (= ${binary:Version}), libtcmalloc-minimal4 (= ${binary:Version})
+Architecture: i386 amd64 powerpc armel armhf
+Depends: ${misc:Depends}, libgoogle-perftools4 (= ${binary:Version}), libtcmalloc-minimal4 (= ${binary:Version}), libunwind8-dev [amd64]
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
  utilities to improve and analyze the performance of C++ programs.  This
@@ -22,7 +22,7 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
 
 Package: libtcmalloc-minimal4
 Section: libs
-Architecture: i386 amd64 powerpc
+Architecture: i386 amd64 powerpc armel armhf
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
@@ -32,7 +32,7 @@ Description: efficient thread-caching malloc
 Package: libtcmalloc-minimal4-dbg
 Section: debug
 Priority: extra
-Architecture: i386 amd64 powerpc
+Architecture: i386 amd64 powerpc armel armhf
 Depends: ${misc:Depends}, libtcmalloc-minimal4 (= ${binary:Version})
 Description: efficient thread-caching malloc
  Contains debugging symbols for libtcmalloc-minimal4.
@@ -43,7 +43,7 @@ Description: efficient thread-caching malloc
 
 Package: libgoogle-perftools4
 Section: libs
-Architecture: i386 amd64 powerpc
+Architecture: i386 amd64 powerpc armel armhf
 Depends: libtcmalloc-minimal4 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Conflicts: libgoogle-perftools0
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
@@ -55,7 +55,7 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
 Package: libgoogle-perftools4-dbg
 Section: debug
 Priority: extra
-Architecture: i386 amd64 powerpc
+Architecture: i386 amd64 powerpc armel armhf
 Depends: ${misc:Depends}, libgoogle-perftools4 (= ${binary:Version})
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  Contains debugging symbols for libgoogle-perftools4.
