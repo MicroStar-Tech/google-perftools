@@ -7,6 +7,7 @@ google-perftools (2.1-1) unstable; urgency=low
     - Add missing dependency on libunwind8-dev for amd64 architecture
       to libgoogle-perftools-dev. (Closes: #706860)
     - Add new architectures: armel armhf. (Closes: #695308)
+    - Bumped up Standards-Version to 3.9.4.
   * Removed debian/patches/20120708_ppc_ftbfs.patch, which has been applied by
     the upstream.
 

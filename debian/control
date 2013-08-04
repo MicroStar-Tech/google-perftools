@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
 Build-Depends: cdbs, autoconf, automake1.9, libtool, patchutils, debhelper (>= 9.0.0), binutils, libunwind8-dev [amd64]
 Build-Conflicts: autoconf2.13, automake1.4
-Standards-Version: 3.9.3
+Standards-Version: 3.9.4
 Homepage: http://code.google.com/p/gperftools/
 Vcs-Svn: svn://svn.debian.org/svn/collab-maint/deb-maint/google-perftools/trunk
 Vcs-Browser: http://svn.debian.org/viewvc/collab-maint/deb-maint/google-perftools/trunk/
