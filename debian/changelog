@@ -1,3 +1,10 @@
+google-perftools (2.1-2) unstable; urgency=low
+
+  * Now builds with automake 1.11. (Closes: #724381)
+    Thanks to Eric Dorland for a patch.
+
+ -- Daigo Moriwaki <daigo@debian.org>  Sun, 04 Aug 2013 22:08:47 +0900
+
 google-perftools (2.1-1) unstable; urgency=low
 
   * New upstream release. (Closes: #701378)
