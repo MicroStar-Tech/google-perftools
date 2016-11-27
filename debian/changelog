@@ -1,6 +1,6 @@
 google-perftools (2.5-1) unstable; urgency=medium
 
-  * New upstream release
+  * New upstream release. (Closes: #831240)
   * Update watch file
   * Remove patches that the upstream has applied
     - debian/patches/unbreak-heap-profiler-unittest-on-gcc-5.patch
