@@ -1,7 +1,2 @@
-# Example watch control file for uscan
-# Rename this file to "watch" and then you can run the "uscan" command
-# to check for upstream updates and more.
-# Site		Directory		Pattern			Version	Script
-# http://prdownloads.sourceforge.net/goog-perftools/
 version=3
-http://code.google.com/p/gperftools/downloads/list?can=1 .*/gperftools-(\d[\d\.]*)\.tar\.gz
+https://code.google.com/p/gperftools/ https://.*/gperftools-(\d[\d\.]*)\.tar\.gz

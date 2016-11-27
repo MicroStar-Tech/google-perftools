@@ -1,3 +1,27 @@
+google-perftools (2.2.1-0.3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Apply upstream patches to fix test failures with gcc 5 (closes: #777887)
+  * Pass --add-missing to automake to fix build failure.
+
+ -- Julien Cristau <jcristau@debian.org>  Sat, 20 Feb 2016 16:42:10 +0000
+
+google-perftools (2.2.1-0.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Add actual arm64 support (Closes: #763837)
+
+ -- Wookey <wookey@debian.org>  Thu, 02 Oct 2014 02:23:32 +0000
+
+google-perftools (2.2.1-0.1) unstable; urgency=medium
+
+  * Non-maintainer upload
+  * New upstream release. (Closes: #757149)
+  * Updated watch file
+  * Added ppc64el, arm64 architectures (Closes: #737677)
+
+ -- Hilko Bengen <bengen@debian.org>  Sun, 07 Sep 2014 21:22:29 +0200
+
 google-perftools (2.1-2) unstable; urgency=low
 
   * Now builds with automake 1.11. (Closes: #724381)
