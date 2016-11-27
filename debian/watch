@@ -1,2 +1,2 @@
 version=3
-https://code.google.com/p/gperftools/ https://.*/gperftools-(\d[\d\.]*)\.tar\.gz
+https://github.com/gperftools/gperftools/tags .*/gperftools-(.+)\.tar\.gz
