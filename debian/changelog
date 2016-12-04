@@ -1,3 +1,10 @@
+google-perftools (2.5-2) unstable; urgency=medium
+
+  * Provide automatic debug packages rather than -dbg packages.
+    (Closes: #838562)
+
+ -- Daigo Moriwaki <daigo@debian.org>  Sun, 27 Nov 2016 16:08:46 +0900
+
 google-perftools (2.5-1) unstable; urgency=medium
 
   * New upstream release. (Closes: #831240)

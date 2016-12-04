@@ -2,7 +2,7 @@ Source: google-perftools
 Section: libs
 Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
-Build-Depends: cdbs, autoconf, automake, libtool, patchutils, debhelper (>= 9.0.0), binutils, libunwind8-dev [amd64]
+Build-Depends: cdbs, autoconf, automake, libtool, patchutils, debhelper (>= 10.2.1), binutils, libunwind8-dev [amd64]
 Build-Conflicts: autoconf2.13, automake1.4
 Standards-Version: 3.9.4
 Homepage: http://code.google.com/p/gperftools/
@@ -29,18 +29,6 @@ Description: efficient thread-caching malloc
  utilities to improve and analyze the performance of C++ programs. This is a
  part of that package, and includes an optimized thread-caching malloc.
 
-Package: libtcmalloc-minimal4-dbg
-Section: debug
-Priority: extra
-Architecture: i386 amd64 powerpc ppc64el arm64 armel armhf
-Depends: ${misc:Depends}, libtcmalloc-minimal4 (= ${binary:Version})
-Description: efficient thread-caching malloc
- Contains debugging symbols for libtcmalloc-minimal4.
- .
- This package is provided primarily to provide a backtrace with names
- in a debugger, this makes it somewhat easier to interpret core
- dumps.  Most people will not need this package.
-
 Package: libgoogle-perftools4
 Section: libs
 Architecture: i386 amd64 powerpc ppc64el arm64 armel armhf
@@ -51,18 +39,6 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
  utilities to improve and analyze the performance of C++ programs. This includes
  the full features: an optimized thread-caching malloc() and cpu and heap
  profiling utilities.
-
-Package: libgoogle-perftools4-dbg
-Section: debug
-Priority: extra
-Architecture: i386 amd64 powerpc ppc64el arm64 armel armhf
-Depends: ${misc:Depends}, libgoogle-perftools4 (= ${binary:Version})
-Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
- Contains debugging symbols for libgoogle-perftools4.
- .
- This package is provided primarily to provide a backtrace with names
- in a debugger, this makes it somewhat easier to interpret core
- dumps.  Most people will not need this package.
 
 Package: google-perftools
 Section: devel
