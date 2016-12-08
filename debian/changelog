@@ -2,6 +2,7 @@ google-perftools (2.5-2) unstable; urgency=medium
 
   * Provide automatic debug packages rather than -dbg packages.
     (Closes: #838562)
+  * Bump up Standards-Version to 3.9.8
 
  -- Daigo Moriwaki <daigo@debian.org>  Sun, 27 Nov 2016 16:08:46 +0900
 
