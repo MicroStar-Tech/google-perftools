@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: gperftools
 Upstream-Contact: google-perftools@googlegroups.com
-Source: http://code.google.com/p/gperftools/
+Source: https://github.com/gperftools/gperftools
 
 Files: *
 Copyright: Google Inc.

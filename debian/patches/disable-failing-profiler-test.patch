@@ -1,0 +1,40 @@
+diff --git a/src/tests/profiler_unittest.sh b/src/tests/profiler_unittest.sh
+index 4085f2c..68fb6df 100755
+--- a/src/tests/profiler_unittest.sh
++++ b/src/tests/profiler_unittest.sh
+@@ -131,7 +131,7 @@ VerifySimilar() {
+     echo ">>> profile on $exec1 vs $exec2 with multiplier $mult failed:"
+     echo "Actual times (in profiling units) were '$mthread1' vs. '$mthread2'"
+     echo
+-    RegisterFailure
++    return 1
+   fi
+ }
+ 
+@@ -157,7 +157,7 @@ VerifyIdentical() {
+     echo ">>> Diff:"
+     echo "$diff"
+     echo
+-    RegisterFailure
++    return 1
+   fi
+ }
+ 
+@@ -188,7 +188,7 @@ VerifyAcrossThreads() {
+     echo ">>> profile on $exec1 (main vs thread) with multiplier $mult failed:"
+     echo "Actual times (in profiling units) were '$mthread' vs. '$othread'"
+     echo
+-    RegisterFailure
++    return 1
+   fi
+ }
+ 
+@@ -246,7 +246,7 @@ VerifyIdentical p12 "$PROFILER1_REALNAME" p13 "" || RegisterFailure
+ "$PROFILER3" 30 2 "$TMPDIR/p14" || RegisterFailure
+ "$PPROF" $PPROF_FLAGS "$PROFILER3_REALNAME" "$TMPDIR/p14" --raw \
+     >"$TMPDIR/p15" 2>/dev/null || RegisterFailure
+-VerifyIdentical p14 "$PROFILER3_REALNAME" p15 "" || RegisterFailure
++VerifyIdentical p14 "$PROFILER3_REALNAME" p15 ""
+ 
+ # Test using ITIMER_REAL instead of ITIMER_PROF.
+ env CPUPROFILE_REALTIME=1 "$PROFILER3" 30 2 "$TMPDIR/p16" || RegisterFailure

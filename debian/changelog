@@ -1,3 +1,20 @@
+google-perftools (2.5-2.2) unstable; urgency=medium
+
+  * Non-maintainer upload
+  * Tweak profiler_unittest.sh so test failures are just counted once
+    (Closes: #849132)
+
+ -- Hilko Bengen <bengen@debian.org>  Tue, 28 Feb 2017 22:44:18 +0100
+
+google-perftools (2.5-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload
+  * Update URL (Homepage, debian/copyright)
+  * Ignore result for profiler unit test that fails "randomly" on i386
+    (Closes: #849132)
+
+ -- Hilko Bengen <bengen@debian.org>  Sun, 26 Feb 2017 12:12:05 +0100
+
 google-perftools (2.5-2) unstable; urgency=medium
 
   * Provide automatic debug packages rather than -dbg packages.
