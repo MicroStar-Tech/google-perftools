@@ -51,21 +51,13 @@ endif HAVE_W_NO_UNUSED_RESULT
 if HAVE_SIZED_DEALLOCATION
 AM_CXXFLAGS += -fsized-deallocation
 endif HAVE_SIZED_DEALLOCATION
+if HAVE_F_ALIGNED_NEW
+AM_CXXFLAGS += -faligned-new
+endif HAVE_F_ALIGNED_NEW
 
 # The -no-undefined flag allows libtool to generate shared libraries for
 # Cygwin and MinGW.  LIBSTDCXX_LA_LINKER_FLAG is used to fix a Solaris bug.
 AM_LDFLAGS = -no-undefined $(LIBSTDCXX_LA_LINKER_FLAG)
-
-# We know our low-level code cannot trigger an exception.  On some
-# systems, such as cygwin, it would be disastrous if they did, because
-# the exception handler might call malloc!  If our low-level routines
-# raised an exception within the malloc, they'd deadlock.  Luckily,
-# we control all this code, and do not need exceptions for it.
-if GCC
-NO_EXCEPTIONS = -fno-exceptions
-else !GCC
-NO_EXCEPTIONS =
-endif !GCC
 
 # These are x86-specific, having to do with frame-pointers.  In
 # particular, some x86_64 systems do not insert frame pointers by
@@ -101,7 +93,8 @@ endif MINGW
 if HAVE_OBJCOPY_WEAKEN
 WEAKEN = $(OBJCOPY) -W malloc -W free -W realloc -W calloc -W cfree \
          -W memalign -W posix_memalign -W valloc -W pvalloc \
-         -W malloc_stats -W mallopt -W mallinfo \
+         -W aligned_alloc \
+         -W malloc_stats -W mallopt -W mallinfo -W nallocx \
          -W _Znwm -W _ZnwmRKSt9nothrow_t -W _Znam -W _ZnamRKSt9nothrow_t \
          -W _ZdlPv -W _ZdaPv \
          -W __Znwm -W __ZnwmRKSt9nothrow_t -W __Znam -W __ZnamRKSt9nothrow_t \
@@ -141,7 +134,7 @@ googleinclude_HEADERS =				\
 # top-level boilerplate files.  Also add a TODO file if you have one.
 # We'll add to this later, on a library-by-library basis
 dist_doc_DATA = AUTHORS COPYING ChangeLog INSTALL NEWS README README_windows.txt \
-                TODO
+                TODO ChangeLog.old
 
 # The libraries (.so's) you want to install
 # We'll add to this later, on a library-by-library basis
@@ -178,7 +171,7 @@ EXTRA_INSTALL =
 
 ## vvvv RULES TO MAKE THE LIBRARIES, BINARIES, AND UNITTESTS
 
-dist_doc_DATA += doc/index.html doc/designstyle.css
+dist_doc_DATA += docs/index.html docs/designstyle.css
 
 
 ### ------- library routines, in src/base
@@ -411,8 +404,8 @@ pprof_unittest: $(top_srcdir)/src/pprof
 TESTS_ENVIRONMENT += PPROF_PATH=$(top_srcdir)/src/pprof
 
 ### Documentation
-dist_man_MANS = doc/pprof.1
-dist_doc_DATA += doc/pprof_remote_servers.html
+dist_man_MANS = docs/pprof.1
+dist_doc_DATA += docs/pprof_remote_servers.html
 
 # On MSVC, we need our own versions of addr2line and nm to work with pprof.
 WINDOWS_PROJECTS += vsprojects/nm-pdb/nm-pdb.vcproj
@@ -457,16 +450,13 @@ S_TCMALLOC_MINIMAL_INCLUDES = src/common.h \
 SG_TCMALLOC_MINIMAL_INCLUDES = src/gperftools/malloc_hook.h \
                                src/gperftools/malloc_hook_c.h \
                                src/gperftools/malloc_extension.h \
-                               src/gperftools/malloc_extension_c.h
+                               src/gperftools/malloc_extension_c.h \
+                               src/gperftools/nallocx.h
 TCMALLOC_MINIMAL_INCLUDES = $(S_TCMALLOC_MINIMAL_INCLUDES) $(SG_TCMALLOC_MINIMAL_INCLUDES) $(SG_STACKTRACE_INCLUDES)
 perftoolsinclude_HEADERS += $(SG_TCMALLOC_MINIMAL_INCLUDES)
 
 ### Making the library
 
-# As we describe at the top of this file, we want to turn off exceptions
-# for all files in this library -- except tcmalloc.cc which needs them
-# to fulfill its API.  Automake doesn't allow per-file CXXFLAGS, so we need
-# to separate into two libraries.
 noinst_LTLIBRARIES += libtcmalloc_minimal_internal.la
 libtcmalloc_minimal_internal_la_SOURCES = src/common.cc \
                                           src/internal_logging.cc \
@@ -487,7 +477,7 @@ libtcmalloc_minimal_internal_la_SOURCES = src/common.cc \
 libtcmalloc_minimal_internal_la_CXXFLAGS = -DNO_TCMALLOC_SAMPLES \
                                            -DNO_HEAP_CHECK \
                                            -DNDEBUG \
-                                           $(AM_CXXFLAGS) $(NO_EXCEPTIONS)
+                                           $(AM_CXXFLAGS)
 libtcmalloc_minimal_internal_la_LDFLAGS =  $(AM_LDFLAGS)
 libtcmalloc_minimal_internal_la_LIBADD =  $(LIBSPINLOCK) libmaybe_threads.la
 
@@ -550,6 +540,20 @@ tcmalloc_minimal_unittest_LDFLAGS = $(PTHREAD_CFLAGS) $(TCMALLOC_FLAGS)
 # implementations define their own malloc, and we need to go on the
 # first linkline to make sure our malloc 'wins'.
 tcmalloc_minimal_unittest_LDADD = $(LIBTCMALLOC_MINIMAL) \
+                                  liblogging.la $(PTHREAD_LIBS)
+
+# lets make sure we exerice ASSERTs in at least in statically linked
+# configuration
+TESTS += tcm_min_asserts_unittest
+tcm_min_asserts_unittest_SOURCES = src/tests/tcmalloc_unittest.cc \
+                                    src/tests/testutil.h src/tests/testutil.cc \
+                                    $(libtcmalloc_minimal_internal_la_SOURCES) \
+                                    $(libtcmalloc_minimal_la_SOURCES) \
+                                    $(TCMALLOC_UNITTEST_INCLUDES)
+tcm_min_asserts_unittest_CXXFLAGS = -DNO_TCMALLOC_SAMPLES -DNO_HEAP_CHECK \
+                                    $(PTHREAD_CFLAGS) $(AM_CXXFLAGS) $(NO_BUILTIN_CXXFLAGS)
+tcm_min_asserts_unittest_LDFLAGS = $(PTHREAD_CFLAGS) $(TCMALLOC_FLAGS)
+tcm_min_asserts_unittest_LDADD = $(LIBSPINLOCK) libmaybe_threads.la \
                                   liblogging.la $(PTHREAD_LIBS)
 
 TESTS += tcmalloc_minimal_large_unittest
@@ -742,48 +746,45 @@ thread_dealloc_unittest_LDFLAGS = $(PTHREAD_CFLAGS) $(TCMALLOC_FLAGS)
 thread_dealloc_unittest_LDADD = $(LIBTCMALLOC_MINIMAL) $(PTHREAD_LIBS)
 
 ### Documentation
-dist_doc_DATA += doc/tcmalloc.html \
-                 doc/overview.gif \
-                 doc/pageheap.gif \
-                 doc/spanmap.gif \
-                 doc/threadheap.gif \
-                 doc/t-test1.times.txt \
-                 doc/tcmalloc-opspercpusec.vs.threads.1024.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.128.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.131072.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.16384.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.2048.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.256.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.32768.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.4096.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.512.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.64.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.65536.bytes.png 	\
-                 doc/tcmalloc-opspercpusec.vs.threads.8192.bytes.png 	\
-                 doc/tcmalloc-opspersec.vs.size.1.threads.png 		\
-                 doc/tcmalloc-opspersec.vs.size.12.threads.png 		\
-                 doc/tcmalloc-opspersec.vs.size.16.threads.png 		\
-                 doc/tcmalloc-opspersec.vs.size.2.threads.png 		\
-                 doc/tcmalloc-opspersec.vs.size.20.threads.png 		\
-                 doc/tcmalloc-opspersec.vs.size.3.threads.png 		\
-                 doc/tcmalloc-opspersec.vs.size.4.threads.png 		\
-                 doc/tcmalloc-opspersec.vs.size.5.threads.png 		\
-                 doc/tcmalloc-opspersec.vs.size.8.threads.png
+dist_doc_DATA += docs/tcmalloc.html \
+                 docs/overview.gif \
+                 docs/pageheap.gif \
+                 docs/spanmap.gif \
+                 docs/threadheap.gif \
+                 docs/t-test1.times.txt \
+                 docs/tcmalloc-opspercpusec.vs.threads.1024.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.128.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.131072.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.16384.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.2048.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.256.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.32768.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.4096.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.512.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.64.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.65536.bytes.png 	\
+                 docs/tcmalloc-opspercpusec.vs.threads.8192.bytes.png 	\
+                 docs/tcmalloc-opspersec.vs.size.1.threads.png 		\
+                 docs/tcmalloc-opspersec.vs.size.12.threads.png 		\
+                 docs/tcmalloc-opspersec.vs.size.16.threads.png 		\
+                 docs/tcmalloc-opspersec.vs.size.2.threads.png 		\
+                 docs/tcmalloc-opspersec.vs.size.20.threads.png 		\
+                 docs/tcmalloc-opspersec.vs.size.3.threads.png 		\
+                 docs/tcmalloc-opspersec.vs.size.4.threads.png 		\
+                 docs/tcmalloc-opspersec.vs.size.5.threads.png 		\
+                 docs/tcmalloc-opspersec.vs.size.8.threads.png
 
 # I don't know how to say "distribute the .dot files but don't install them";
 # noinst doesn't seem to work with data.  I separate them out anyway, in case
 # one day we figure it out.  Regardless, installing the dot files isn't the
 # end of the world.
-dist_doc_DATA += doc/overview.dot \
-                 doc/pageheap.dot \
-                 doc/spanmap.dot \
-                 doc/threadheap.dot
+dist_doc_DATA += docs/overview.dot \
+                 docs/pageheap.dot \
+                 docs/spanmap.dot \
+                 docs/threadheap.dot
 
 
 ### ------- tcmalloc_minimal_debug (thread-caching malloc with debugallocation)
-
-# Like tcmalloc.cc, debugallocation.cc needs exceptions to fulfill its
-# API.  Luckily, we can reuse everything else from tcmalloc_minimal.
 
 if WITH_DEBUGALLOC
 
@@ -857,7 +858,6 @@ librun_benchmark_la_SOURCES = \
 	benchmark/run_benchmark.c benchmark/run_benchmark.h
 
 noinst_PROGRAMS += malloc_bench malloc_bench_shared \
-	malloc_bench_shared_full \
 	binary_trees binary_trees_shared
 
 malloc_bench_SOURCES = benchmark/malloc_bench.cc
@@ -870,10 +870,23 @@ malloc_bench_shared_CXXFLAGS = $(PTHREAD_CFLAGS) $(AM_CXXFLAGS) $(NO_BUILTIN_CXX
 malloc_bench_shared_LDFLAGS = $(PTHREAD_CFLAGS) $(TCMALLOC_FLAGS)
 malloc_bench_shared_LDADD = librun_benchmark.la libtcmalloc_minimal.la $(PTHREAD_LIBS)
 
+if WITH_HEAP_PROFILER_OR_CHECKER
+
+noinst_PROGRAMS += malloc_bench_shared_full
 malloc_bench_shared_full_SOURCES = benchmark/malloc_bench.cc
 malloc_bench_shared_full_CXXFLAGS = $(PTHREAD_CFLAGS) $(AM_CXXFLAGS) $(NO_BUILTIN_CXXFLAGS)
 malloc_bench_shared_full_LDFLAGS = $(PTHREAD_CFLAGS) $(TCMALLOC_FLAGS)
 malloc_bench_shared_full_LDADD = librun_benchmark.la libtcmalloc.la $(PTHREAD_LIBS)
+
+if !OSX
+noinst_PROGRAMS += unwind_bench
+unwind_bench_SOURCES = benchmark/unwind_bench.cc benchmark/getcontext_light.cc
+unwind_bench_CXXFLAGS = $(PTHREAD_CFLAGS) $(AM_CXXFLAGS) $(NO_BUILTIN_CXXFLAGS)
+unwind_bench_LDFLAGS = $(PTHREAD_CFLAGS) $(TCMALLOC_FLAGS)
+unwind_bench_LDADD = librun_benchmark.la libtcmalloc.la $(PTHREAD_LIBS)
+endif !OSX
+
+endif WITH_HEAP_PROFILER_OR_CHECKER
 
 binary_trees_SOURCES = benchmark/binary_trees.cc
 binary_trees_CXXFLAGS = $(PTHREAD_CFLAGS) $(AM_CXXFLAGS) $(NO_BUILTIN_CXXFLAGS)
@@ -923,10 +936,6 @@ endif !BUILD_EMERGENCY_MALLOC
 
 ### Making the library
 
-# As we describe at the top of this file, we want to turn off exceptions
-# for all files in this library -- except tcmalloc.cc which needs them
-# to fulfill its API.  Automake doesn't allow per-file CXXFLAGS, so we need
-# to separate into two libraries.
 noinst_LTLIBRARIES += libtcmalloc_internal.la
 libtcmalloc_internal_la_SOURCES = $(libtcmalloc_minimal_internal_la_SOURCES) \
                                   $(TCMALLOC_INCLUDES) \
@@ -937,7 +946,7 @@ libtcmalloc_internal_la_SOURCES = $(libtcmalloc_minimal_internal_la_SOURCES) \
                                   $(EMERGENCY_MALLOC_CC) \
                                   src/memory_region_map.cc
 libtcmalloc_internal_la_CXXFLAGS = $(PTHREAD_CFLAGS) -DNDEBUG \
-                                   $(AM_CXXFLAGS) $(NO_EXCEPTIONS) $(EMERGENCY_MALLOC_DEFINE)
+                                   $(AM_CXXFLAGS) $(EMERGENCY_MALLOC_DEFINE)
 libtcmalloc_internal_la_LDFLAGS = $(PTHREAD_CFLAGS)
 libtcmalloc_internal_la_LIBADD = libstacktrace.la $(PTHREAD_LIBS)
 
@@ -994,6 +1003,19 @@ tcmalloc_unittest_LDFLAGS = $(PTHREAD_CFLAGS) $(TCMALLOC_FLAGS)
 # implementations define their own malloc, and we need to go on the
 # first linkline to make sure our malloc 'wins'.
 tcmalloc_unittest_LDADD = $(LIBTCMALLOC) liblogging.la $(PTHREAD_LIBS)
+
+# # lets make sure we exerice ASSERTs in at least in statically linked
+# # configuration
+# TESTS += tcm_asserts_unittest
+# tcm_asserts_unittest_SOURCES = src/tests/tcmalloc_unittest.cc \
+#                                 src/tests/testutil.h src/tests/testutil.cc \
+#                                 $(libtcmalloc_internal_la_SOURCES) \
+#                                 $(libtcmalloc_la_SOURCES) \
+#                                 $(TCMALLOC_UNITTEST_INCLUDES)
+# tcm_asserts_unittest_CXXFLAGS = $(PTHREAD_CFLAGS) $(AM_CXXFLAGS) $(NO_BUILTIN_CXXFLAGS)
+# tcm_asserts_unittest_LDFLAGS = $(PTHREAD_CFLAGS) $(TCMALLOC_FLAGS)
+# tcm_asserts_unittest_LDADD = $(LIBSPINLOCK) libmaybe_threads.la libstacktrace.la \
+#                              liblogging.la $(PTHREAD_LIBS)
 
 # This makes sure it's safe to link in both tcmalloc and
 # tcmalloc_minimal.  (One would never do this on purpose, but perhaps
@@ -1159,11 +1181,11 @@ endif WITH_HEAP_CHECKER
 
 ### Documentation (above and beyond tcmalloc_minimal documentation)
 if WITH_HEAP_PROFILER
-dist_doc_DATA += doc/heapprofile.html doc/heap-example1.png
+dist_doc_DATA += docs/heapprofile.html docs/heap-example1.png
 endif WITH_HEAP_PROFILER
 
 if WITH_HEAP_CHECKER
-dist_doc_DATA += doc/heap_checker.html
+dist_doc_DATA += docs/heap_checker.html
 endif WITH_HEAP_CHECKER
 
 
@@ -1354,12 +1376,12 @@ profiler4_unittest_DEPENDENCIES = $(LIBPROFILER)
 
 
 ### Documentation
-dist_doc_DATA += doc/cpuprofile.html \
-                 doc/cpuprofile-fileformat.html \
-                 doc/pprof-test-big.gif \
-                 doc/pprof-test.gif \
-                 doc/pprof-vsnprintf-big.gif \
-                 doc/pprof-vsnprintf.gif
+dist_doc_DATA += docs/cpuprofile.html \
+                 docs/cpuprofile-fileformat.html \
+                 docs/pprof-test-big.gif \
+                 docs/pprof-test.gif \
+                 docs/pprof-vsnprintf-big.gif \
+                 docs/pprof-vsnprintf.gif
 
 endif WITH_CPU_PROFILER
 
@@ -1461,8 +1483,10 @@ libprofiler.pc: libtcmalloc.pc
 libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status --recheck
 
+@GENERATE_CHANGELOG_RULES@
+
 # Windows wants write permission to .vcproj files and maybe even sln files.
-dist-hook:
+dist-hook: dist-ChangeLog
 	test -e "$(distdir)/vsprojects" \
 	   && chmod -R u+w $(distdir)/*.sln $(distdir)/vsprojects/
 
@@ -1470,6 +1494,6 @@ EXTRA_DIST = packages/rpm.sh packages/rpm/rpm.spec packages/deb.sh packages/deb 
              $(SCRIPTS) libtool \
              src/windows/get_mangled_names.cc src/windows/override_functions.cc \
              src/windows/config.h src/windows/gperftools/tcmalloc.h \
-             doc/pprof.see_also src/windows/TODO \
+             docs/pprof.see_also src/windows/TODO \
              $(WINDOWS_PROJECTS) \
              src/solaris/libstdc++.la
