@@ -2,17 +2,17 @@ Source: google-perftools
 Section: libs
 Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
-Build-Depends: cdbs, autoconf, automake, libtool, patchutils, debhelper (>= 10.2.1), binutils, libunwind8-dev [amd64]
+Build-Depends: cdbs, dh-autoreconf, debhelper (>= 10.2.1), libunwind-dev [amd64]
 Build-Conflicts: autoconf2.13, automake1.4
 Standards-Version: 3.9.8
 Homepage: https://github.com/gperftools/gperftools
-Vcs-Svn: svn://svn.debian.org/svn/collab-maint/deb-maint/google-perftools/trunk
-Vcs-Browser: http://svn.debian.org/viewvc/collab-maint/deb-maint/google-perftools/trunk/
+Vcs-Git: https://salsa.debian.org/debian/google-perftools.git
+Vcs-Browser: https://salsa.debian.org/debian/google-perftools
 
 Package: libgoogle-perftools-dev
 Section: libdevel
-Architecture: i386 amd64 powerpc ppc64el arm64 armel armhf
-Depends: ${misc:Depends}, libgoogle-perftools4 (= ${binary:Version}), libtcmalloc-minimal4 (= ${binary:Version}), libunwind8-dev [amd64]
+Architecture: any
+Depends: ${misc:Depends}, libgoogle-perftools4 (= ${binary:Version}), libtcmalloc-minimal4 (= ${binary:Version}), libunwind-dev [amd64]
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
  utilities to improve and analyze the performance of C++ programs.  This
@@ -22,7 +22,7 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
 
 Package: libtcmalloc-minimal4
 Section: libs
-Architecture: i386 amd64 powerpc ppc64el arm64 armel armhf
+Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
@@ -31,7 +31,7 @@ Description: efficient thread-caching malloc
 
 Package: libgoogle-perftools4
 Section: libs
-Architecture: i386 amd64 powerpc ppc64el arm64 armel armhf
+Architecture: any
 Depends: libtcmalloc-minimal4 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Conflicts: libgoogle-perftools0
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc

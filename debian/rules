@@ -11,14 +11,8 @@
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/autotools.mk
-include /usr/share/cdbs/1/rules/simple-patchsys.mk
+include /usr/share/cdbs/1/rules/autoreconf.mk
 
-DEB_AUTO_UPDATE_AUTOCONF = 2.69
-DEB_AUTO_UPDATE_AUTOMAKE = 1.15
-DEB_AUTO_UPDATE_AUTOHEADER = $(DEB_AUTO_UPDATE_AUTOCONF) 
-DEB_AUTO_UPDATE_ACLOCAL = $(DEB_AUTO_UPDATE_AUTOMAKE)
-DEB_AUTO_UPDATE_LIBTOOL = pre
-DEB_AUTOMAKE_ARGS = --add-missing
 DEB_INSTALL_CHANGELOGS_ALL := ChangeLog
 
 ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
@@ -29,7 +23,7 @@ DEB_MAKE_CHECK_TARGET := check
 endif # TEST_ARCHS
 endif # nocheck
 
-lib_dir = usr/lib
+lib_dir = usr/lib/$(DEB_HOST_MULTIARCH)
 bin_dir = usr/bin
 man_dir = usr/share/man/man1
 
@@ -39,7 +33,7 @@ DEB_INSTALL_DIRS_libgoogle-perftools4 += $(lib_dir)
 DEB_INSTALL_DOCS_libgoogle-perftools4 += debian/README.Debian
 
 DEB_INSTALL_DIRS_libgoogle-perftools-dev += $(lib_dir) usr/include/google usr/include/gperftools
-DEB_INSTALL_DOCS_libgoogle-perftools-dev += $(DEB_SRCDIR)/doc/* -Xpprof.1
+DEB_INSTALL_DOCS_libgoogle-perftools-dev += $(DEB_SRCDIR)/docs/* -Xpprof.1
 
 DEB_INSTALL_DIRS_google-perftools += $(bin_dir) $(man_dir)
 DEB_INSTALL_MANPAGES_google-perftools += debian/tmp/$(man_dir)/google-pprof.1
