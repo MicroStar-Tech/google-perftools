@@ -1,3 +1,9 @@
+google-perftools (2.7-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 30 Apr 2018 06:52:01 +0000
+
 google-perftools (2.6.90-0.1) unstable; urgency=medium
 
   * Non-maintainer upload.
