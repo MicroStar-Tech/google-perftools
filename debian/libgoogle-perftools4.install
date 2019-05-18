@@ -1,0 +1,4 @@
+usr/lib/*/libprofiler.so.*
+usr/lib/*/libtcmalloc.so.*
+usr/lib/*/libtcmalloc_debug.so.*
+usr/lib/*/libtcmalloc_and_profiler.so.*

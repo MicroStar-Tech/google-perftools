@@ -1,71 +1,41 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
-# Sample debian/rules that uses debhelper.
-# This file was originally written by Joey Hess and Craig Small.
-# As a special exception, when this file is copied by dh-make into a
-# dh-make output file, you may use that output file without restriction.
-# This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/autotools.mk
-include /usr/share/cdbs/1/rules/autoreconf.mk
+include /usr/share/dpkg/architecture.mk
 
-DEB_INSTALL_CHANGELOGS_ALL := ChangeLog
+TEST_ARCHS = i386 amd64
 
+DESTDIR = $(CURDIR)/debian/tmp
+
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+override_dh_auto_install:
+	dh_auto_install
+	# rename binary
+	cd $(DESTDIR)/usr/bin && mv pprof google-pprof
+	cd $(DESTDIR)/usr/share/man/man1 && \
+		mv pprof.1 google-pprof.1 && \
+		sed -i 's/pprof/google-pprof/g' google-pprof.1
+	cd $(DESTDIR)/usr/share/doc/gperftools/ && \
+		sed -i 's/pprof/google-pprof/g' README
+	# remove unwanted documentation
+	cd $(DESTDIR)/usr/share/doc/gperftools/ && \
+		rm -f ChangeLog ChangeLog.old INSTALL README_windows.txt TODO
+	# remove .la files
+	find $(DESTDIR) -name \*.la -exec rm {} \;
+
+override_dh_auto_test:
 ifeq (,$(findstring nocheck, $(DEB_BUILD_OPTIONS)))
 # List of architectures for which test execution is enabled
-TEST_ARCHS=i386 amd64
 ifneq (,$(findstring $(DEB_HOST_ARCH), $(TEST_ARCHS)))
-DEB_MAKE_CHECK_TARGET := check
+	$(MAKE) check
 endif # TEST_ARCHS
 endif # nocheck
 
-lib_dir = usr/lib/$(DEB_HOST_MULTIARCH)
-bin_dir = usr/bin
-man_dir = usr/share/man/man1
+%:
+	dh $@ --list-missing
 
-DEB_INSTALL_DIRS_libtcmalloc-minimal4 += $(lib_dir)
-
-DEB_INSTALL_DIRS_libgoogle-perftools4 += $(lib_dir)
-DEB_INSTALL_DOCS_libgoogle-perftools4 += debian/README.Debian
-
-DEB_INSTALL_DIRS_libgoogle-perftools-dev += $(lib_dir) usr/include/google usr/include/gperftools
-DEB_INSTALL_DOCS_libgoogle-perftools-dev += $(DEB_SRCDIR)/docs/* -Xpprof.1
-
-DEB_INSTALL_DIRS_google-perftools += $(bin_dir) $(man_dir)
-DEB_INSTALL_MANPAGES_google-perftools += debian/tmp/$(man_dir)/google-pprof.1
-
-pre-build::
-	chmod u+w -R $(CURDIR)
-
-install/libtcmalloc-minimal4::
-	(cd $(CURDIR)/debian/tmp && \
-	    find usr/lib -name 'libtcmalloc_minimal.so.*' -o \
-	                 -name 'libtcmalloc_minimal_debug.so.*') | \
-	    xargs dh_movefiles -p$(cdbs_curpkg)
-
-install/libgoogle-perftools4::
-	(cd $(CURDIR)/debian/tmp && \
-	    find usr/lib -name 'libprofiler.so.*' -o \
-	                 -name 'libtcmalloc.so.*' -o \
-	                 -name 'libtcmalloc_debug.so.*' -o \
-			 -name 'libtcmalloc_and_profiler.so.*') | \
-	    xargs dh_movefiles -p$(cdbs_curpkg)
-
-install/libgoogle-perftools-dev::
-	(cd $(CURDIR)/debian/tmp && \
-	    find usr/lib -name '*.a' -o -name '*.so') | \
-	    xargs dh_movefiles -p$(cdbs_curpkg)
-	dh_movefiles -p$(cdbs_curpkg) usr/include/google
-	dh_movefiles -p$(cdbs_curpkg) usr/include/gperftools
-
-install/google-perftools::
-	(cd $(CURDIR)/debian/tmp/usr/bin && \
-	  mv pprof google-pprof)
-	dh_movefiles -p$(cdbs_curpkg) usr/bin/google-pprof
-	(cd $(CURDIR)/debian/tmp/usr/share/man/man1 && \
-	  mv pprof.1 google-pprof.1 && \
-	sed -i -e "s/pprof/google-pprof/g" google-pprof.1)
+.PHONY: override_dh_auto_install override_dh_auto_test
