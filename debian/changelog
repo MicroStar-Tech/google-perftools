@@ -1,4 +1,4 @@
-google-perftools (2.7-1) UNRELEASED; urgency=medium
+google-perftools (2.7-1) unstable; urgency=medium
 
   * New upstream release.
   * Fix libprofiler build on ppc64el (closes: #894749).
@@ -9,6 +9,7 @@ google-perftools (2.7-1) UNRELEASED; urgency=medium
   * Update debhelper level to 11:
     - remove dh-autoreconf build dependency.
   * Update Standards-Version to 4.1.4 .
+  * New maintainer (closes: #863782).
 
  -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 30 Apr 2018 06:52:01 +0000
 
