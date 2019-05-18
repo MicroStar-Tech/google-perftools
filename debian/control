@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Daigo Moriwaki <daigo@debian.org>
 Build-Depends: debhelper (>= 11), libunwind-dev [amd64]
 Build-Conflicts: autoconf2.13, automake1.4
-Standards-Version: 3.9.8
+Standards-Version: 4.1.4
 Homepage: https://github.com/gperftools/gperftools
 Vcs-Git: https://salsa.debian.org/debian/google-perftools.git
 Vcs-Browser: https://salsa.debian.org/debian/google-perftools
@@ -46,7 +46,7 @@ Description: libraries for CPU and heap analysis, plus an efficient thread-cachi
 Package: google-perftools
 Section: devel
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, libgoogle-perftools4, curl
+Depends: ${misc:Depends}, ${perl:Depends}, libgoogle-perftools4, curl
 Recommends: graphviz, gv
 Description: command line utilities to analyze the performance of C++ programs
  The gperftools, previously called google-perftools, package contains some
