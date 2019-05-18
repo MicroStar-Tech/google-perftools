@@ -69,7 +69,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#if defined HAVE_STDINT_H
+#ifdef HAVE_STDINT_H
 #include <stdint.h>        // for intptr_t
 #endif
 #include <sys/types.h>     // for size_t
@@ -1159,8 +1159,6 @@ static void TestNAllocXAlignment() {
   }
 }
 
-#endif // !DEBUGALLOCATION
-
 static int saw_new_handler_runs;
 static void* volatile oom_test_last_ptr;
 
@@ -1173,6 +1171,8 @@ static void test_new_handler() {
 }
 
 static ATTRIBUTE_NOINLINE void TestNewOOMHandling() {
+  // debug allocator does internal allocations and crashes when such
+  // internal allocation fails. So don't test it.
   setup_oomable_sys_alloc();
 
   std::new_handler old = std::set_new_handler(test_new_handler);
@@ -1193,6 +1193,7 @@ static ATTRIBUTE_NOINLINE void TestNewOOMHandling() {
   get_test_sys_alloc()->simulate_oom = false;
   std::set_new_handler(old);
 }
+#endif  // !DEBUGALLOCATION
 
 static int RunAllTests(int argc, char** argv) {
   // Optional argv[1] is the seed
@@ -1200,7 +1201,9 @@ static int RunAllTests(int argc, char** argv) {
 
   SetTestResourceLimit();
 
+#ifndef DEBUGALLOCATION
   TestNewOOMHandling();
+#endif
 
   // TODO(odo):  This test has been disabled because it is only by luck that it
   // does not result in fragmentation.  When tcmalloc makes an allocation which
@@ -1373,6 +1376,20 @@ static int RunAllTests(int argc, char** argv) {
     ::operator delete(p2, std::nothrow);
     VerifyDeleteHookWasCalled();
 
+#ifdef ENABLE_SIZED_DELETE
+    p2 = new char;
+    CHECK(p2 != NULL);
+    VerifyNewHookWasCalled();
+    ::operator delete(p2, sizeof(char));
+    VerifyDeleteHookWasCalled();
+
+    p2 = new char[100];
+    CHECK(p2 != NULL);
+    VerifyNewHookWasCalled();
+    ::operator delete[](p2, sizeof(char) * 100);
+    VerifyDeleteHookWasCalled();
+#endif
+
 #if defined(ENABLE_ALIGNED_NEW_DELETE)
 
     overaligned_type* poveraligned = new overaligned_type;
@@ -1417,6 +1434,22 @@ static int RunAllTests(int argc, char** argv) {
     VerifyNewHookWasCalled();
     ::operator delete(p2, std::align_val_t(OVERALIGNMENT), std::nothrow);
     VerifyDeleteHookWasCalled();
+
+#ifdef ENABLE_SIZED_DELETE
+    poveraligned = new overaligned_type;
+    CHECK(poveraligned != NULL);
+    CHECK((((size_t)poveraligned) % OVERALIGNMENT) == 0u);
+    VerifyNewHookWasCalled();
+    ::operator delete(poveraligned, sizeof(overaligned_type), std::align_val_t(OVERALIGNMENT));
+    VerifyDeleteHookWasCalled();
+
+    poveraligned = new overaligned_type[10];
+    CHECK(poveraligned != NULL);
+    CHECK((((size_t)poveraligned) % OVERALIGNMENT) == 0u);
+    VerifyNewHookWasCalled();
+    ::operator delete[](poveraligned, sizeof(overaligned_type) * 10, std::align_val_t(OVERALIGNMENT));
+    VerifyDeleteHookWasCalled();
+#endif
 
 #endif // defined(ENABLE_ALIGNED_NEW_DELETE)
 
