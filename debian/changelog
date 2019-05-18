@@ -1,3 +1,11 @@
+google-perftools (2.6.90-0.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Upload to unstable.
+  * Cherry-pick patches from upstream to fix tests on i386.
+
+ -- YunQiang Su <syq@debian.org>  Sun, 25 Mar 2018 19:20:03 +0800
+
 google-perftools (2.6.90-0.1~exp) experimental; urgency=medium
 
   * Non-maintainer upload.

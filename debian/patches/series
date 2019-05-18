@@ -1,2 +1,5 @@
+0001-unbreak-printing-large-span-stats.patch
+0002-Fix-warning-about-one-of-CheckAddressBits-functions-.patch
+0003-Don-t-test-OOM-handling-of-debugallocator.patch
+0004-Correctly-detect-presence-of-various-functions-in-tc.patch
 20121013-pprof.1.patch
-#disable-failing-profiler-test.patch

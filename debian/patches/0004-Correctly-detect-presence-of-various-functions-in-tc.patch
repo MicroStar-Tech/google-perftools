@@ -1,0 +1,43 @@
+From 8f63f2bb983e93b57e24a05964104f1d833c575b Mon Sep 17 00:00:00 2001
+From: Aliaksey Kandratsenka <alkondratenko@gmail.com>
+Date: Sat, 24 Mar 2018 21:15:01 -0700
+Subject: [PATCH 4/4] Correctly detect presence of various functions in
+ tcmalloc.h
+
+This fixes test miscompilations on some clang 6.0
+installations. Particularly issue #946.
+
+Defines tested by tcmalloc.h where totally wrong defines. configure
+actually puts defines of HAVE_DECL_FOOBAR kind in config.h. Which is
+what we're using now.
+---
+ src/tcmalloc.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/src/tcmalloc.h b/src/tcmalloc.h
+index 2d64f4e..25cf982 100644
+--- a/src/tcmalloc.h
++++ b/src/tcmalloc.h
+@@ -56,15 +56,15 @@
+ #if !HAVE_CFREE_SYMBOL
+ extern "C" void cfree(void* ptr) __THROW;
+ #endif
+-#if !HAVE_POSIX_MEMALIGN_SYMBOL
++#if !HAVE_DECL_POSIX_MEMALIGN
+ extern "C" int posix_memalign(void** ptr, size_t align, size_t size) __THROW;
+ #endif
+-#if !HAVE_MEMALIGN_SYMBOL
++#if !HAVE_DECL_MEMALIGN
+ extern "C" void* memalign(size_t __alignment, size_t __size) __THROW;
+ #endif
+-#if !HAVE_VALLOC_SYMBOL
++#if !HAVE_DECL_VALLOC
+ extern "C" void* valloc(size_t __size) __THROW;
+ #endif
+-#if !HAVE_PVALLOC_SYMBOL
++#if !HAVE_DECL_PVALLOC
+ extern "C" void* pvalloc(size_t __size) __THROW;
+ #endif
+-- 
+2.16.3
+
