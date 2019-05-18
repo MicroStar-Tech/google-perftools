@@ -4,6 +4,8 @@ google-perftools (2.7-1) UNRELEASED; urgency=medium
   * Fix libprofiler build on ppc64el (closes: #894749).
   * Remove 0001-unbreak-printing-large-span-stats.patch as not needed.
   * Use short debhelper rules format.
+  * Make package multiarch (closes: #893928).
+  * Reference google-pprof in README (closes: #739572).
 
  -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 30 Apr 2018 06:52:01 +0000
 

@@ -13,6 +13,7 @@ Package: libgoogle-perftools-dev
 Section: libdevel
 Architecture: any
 Depends: ${misc:Depends}, libgoogle-perftools4 (= ${binary:Version}), libtcmalloc-minimal4 (= ${binary:Version}), libunwind-dev [amd64]
+Multi-Arch: same
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
  utilities to improve and analyze the performance of C++ programs.  This
@@ -24,6 +25,7 @@ Package: libtcmalloc-minimal4
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Multi-Arch: same
 Description: efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
  utilities to improve and analyze the performance of C++ programs. This is a
@@ -34,6 +36,7 @@ Section: libs
 Architecture: any
 Depends: libtcmalloc-minimal4 (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Conflicts: libgoogle-perftools0
+Multi-Arch: same
 Description: libraries for CPU and heap analysis, plus an efficient thread-caching malloc
  The gperftools, previously called google-perftools, package contains some
  utilities to improve and analyze the performance of C++ programs. This includes
