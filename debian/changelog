@@ -6,6 +6,7 @@ google-perftools (2.7-1) UNRELEASED; urgency=medium
   * Use short debhelper rules format.
   * Make package multiarch (closes: #893928).
   * Reference google-pprof in README (closes: #739572).
+  * Update debhelper level to 11 .
 
  -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 30 Apr 2018 06:52:01 +0000
 
