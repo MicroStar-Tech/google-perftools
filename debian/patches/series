@@ -3,3 +3,4 @@
 0003-Don-t-test-OOM-handling-of-debugallocator.patch
 0004-Correctly-detect-presence-of-various-functions-in-tc.patch
 20121013-pprof.1.patch
+fix_ppc64el_FTBFS.patch

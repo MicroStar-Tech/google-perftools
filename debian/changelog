@@ -1,6 +1,7 @@
 google-perftools (2.7-1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Fix libprofiler build on ppc64el (closes: #894749).
 
  -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 30 Apr 2018 06:52:01 +0000
 
