@@ -4,11 +4,11 @@
 # make sure we're interpreted by some minimal autoconf
 AC_PREREQ([2.59])
 
-AC_INIT([gperftools],[2.7],[gperftools@googlegroups.com])
+AC_INIT([gperftools],[2.7.90],[gperftools@googlegroups.com])
 # Update this value for every release!  (A:B:C will map to foo.so.(A-C).C.B)
 # http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-TCMALLOC_SO_VERSION=9:3:5
-PROFILER_SO_VERSION=4:18:4
+TCMALLOC_SO_VERSION=9:4:5
+PROFILER_SO_VERSION=4:19:4
 
 AC_SUBST(TCMALLOC_SO_VERSION)
 AC_SUBST(PROFILER_SO_VERSION)
@@ -109,7 +109,7 @@ AC_ARG_ENABLE([libunwind],
               [enable_libunwind="$default_enable_libunwind"])
 AC_ARG_WITH([tcmalloc-pagesize],
             [AS_HELP_STRING([--with-tcmalloc-pagesize],
-                            [Set the tcmalloc internal page size to 8K, 32K or 64K])],
+                            [Set the tcmalloc internal page size to 4K, 8K, 16K, 32K, 64K, 128K or 256K])],
             [],
             [with_tcmalloc_pagesize=$default_tcmalloc_pagesize])
 AC_ARG_WITH([tcmalloc-alignment],
@@ -119,15 +119,22 @@ AC_ARG_WITH([tcmalloc-alignment],
             [with_tcmalloc_alignment=$default_tcmalloc_alignment])
 
 case "$with_tcmalloc_pagesize" in
+  4)
+       AC_DEFINE(TCMALLOC_PAGE_SIZE_SHIFT, 12);;
   8)
        #Default tcmalloc page size.
        ;;
+  16)
+       AC_DEFINE(TCMALLOC_PAGE_SIZE_SHIFT, 14);;
   32)
-       AC_DEFINE(TCMALLOC_32K_PAGES, 1,
-                 [Define 32K of internal pages size for tcmalloc]);;
+       AC_DEFINE(TCMALLOC_PAGE_SIZE_SHIFT, 15);;
   64)
-       AC_DEFINE(TCMALLOC_64K_PAGES, 1,
-                 [Define 64K of internal pages size for tcmalloc]);;
+       AC_DEFINE(TCMALLOC_PAGE_SIZE_SHIFT, 16);;
+  128)
+       AC_DEFINE(TCMALLOC_PAGE_SIZE_SHIFT, 17);;
+  256)
+       AC_DEFINE(TCMALLOC_PAGE_SIZE_SHIFT, 18,
+                 [Define internal page size for tcmalloc as number of left bitshift]);;
   *)
        AC_MSG_WARN([${with_tcmalloc_pagesize}K size not supported, using default tcmalloc page size.])
 esac
@@ -148,6 +155,8 @@ AC_PROG_CC
 AC_PROG_CPP
 AM_CONDITIONAL(GCC, test "$GCC" = yes)   # let the Makefile know if we're gcc
 AM_PROG_CC_C_O      # shrug: autogen.sh suddenly needs this for some reason
+
+AX_CXX_COMPILE_STDCXX(11, ext, mandatory)
 
 # Check if we have an objcopy installed that supports -W
 AC_CHECK_TOOL([OBJCOPY], [objcopy], [])
@@ -189,6 +198,7 @@ AC_CHECK_TYPES([__int64])       # defined in some windows platforms
 AC_CHECK_TYPES([struct mallinfo],,, [#include <malloc.h>])
 AC_CHECK_TYPES([Elf32_Versym],,, [#include <elf.h>])   # for vdso_support.h
 AC_CHECK_FUNCS(sbrk)            # for tcmalloc to get memory
+AC_CHECK_FUNCS(__sbrk)          # for tcmalloc to get memory
 AC_CHECK_FUNCS(geteuid)         # for turning off services when run as root
 AC_CHECK_FUNCS(fork)            # for the pthread_atfork setup
 AC_CHECK_HEADERS(features.h)    # for vdso_support.h
@@ -231,31 +241,11 @@ else
   AC_SUBST(ac_cv_have_struct_mallinfo, 0)
 fi
 
-# We need to check for mmap.  cygwin supports mmap, but the autoconf
-# test doesn't work on cygwin:
-#    http://www.cygwin.com/ml/cygwin/2002-04/msg00412.html
-# This workaround comes from
-#    http://cygwin.com/ml/cygwin/2004-11/msg00138.html
-case "$host" in
-  *-*-mingw*)
-               dnl mingw doesn't have mmap, not worth
-               dnl checking. Especially given that mingw can be a
-               dnl cross-compiler
-               ;;
-  *-*-cygwin*)
-	       ac_cv_func_mmap_fixed_mapped=yes
-               AC_DEFINE(HAVE_MMAP, 1,
-                         [Define to 1 if you have a working `mmap' system call.])
-               ;;
-            *) if test "$cross_compiling" = yes; then
-                 ac_cv_func_mmap_fixed_mapped=yes
-                 AC_DEFINE(HAVE_MMAP, 1,
-                           [Define to 1 if you have a working `mmap' system call.])
-               else
-                 AC_FUNC_MMAP
-               fi
-               ;;
-esac
+# We hardcode HAVE_MMAP to 1. There are no interesting systems anymore
+# without functional mmap. And our windows builds aren't using
+# autoconf. So we keep HAVE_MMAP define, but only to distingush
+# windows and rest.
+AC_DEFINE(HAVE_MMAP, 1, [Define to 1 if you have a working `mmap' system call.])
 
 # If AtomicWord != Atomic32, we need to define two versions of all the
 # atomicops functions.  If they're the same, we want to define only one.
@@ -343,6 +333,16 @@ AC_CACHE_CHECK([if the compiler supports -Wno-unused-result],
 	        CFLAGS="$OLD_CFLAGS"])
 AM_CONDITIONAL(HAVE_W_NO_UNUSED_RESULT,
 	       test "$perftools_cv_w_no_unused_result" = yes)
+
+AC_ARG_ENABLE([deprecated-pprof],
+              [AS_HELP_STRING([--disable-deprecated-pprof],
+                [do not install old deprecated and unmaintained bundled pprof
+(see github.com/google/pprof for supported version)])],
+              [enable_pprof="$enableval"],
+              [enable_pprof=yes])
+
+AM_CONDITIONAL(INSTALL_PPROF,
+               [test "x$enable_pprof" = xyes])
 
 AC_ARG_ENABLE([dynamic-sized-delete-support],
               [AS_HELP_STRING([--enable-dynamic-sized-delete-support],
@@ -465,14 +465,6 @@ AC_MSG_CHECKING([for __builtin_stack_pointer()])
 AC_LINK_IFELSE([AC_LANG_PROGRAM(, [void *sp = __builtin_stack_pointer()])],
                [AC_DEFINE(HAVE_BUILTIN_STACK_POINTER, 1,
                       Define to 1 if compiler supports __builtin_stack_pointer)
-                AC_MSG_RESULT([yes])],
-               [AC_MSG_RESULT([no])])
-
-# Check for __builtin_expect()
-AC_MSG_CHECKING([for __builtin_expect()])
-AC_LINK_IFELSE([AC_LANG_PROGRAM(, return __builtin_expect(main != 0, 1))],
-               [AC_DEFINE(HAVE_BUILTIN_EXPECT, 1,
-                          Define to 1 if compiler supports __builtin_expect)
                 AC_MSG_RESULT([yes])],
                [AC_MSG_RESULT([no])])
 
@@ -652,6 +644,26 @@ AC_COMPILE_IFELSE(
          have_linux_sigev_thread_id=yes
          AC_MSG_RESULT([yes])],
         [AC_MSG_RESULT([no])])
+
+# Disable large allocation report by default.
+AC_ARG_ENABLE([large-alloc-report],
+              [AS_HELP_STRING([--enable-large-alloc-report],
+                              [report very large allocations to stderr])],
+              [enable_large_alloc_report="$enableval"],
+              [enable_large_alloc_report=no])
+AS_IF([test "x$enable_large_alloc_report" = xyes],
+      [AC_DEFINE([ENABLE_LARGE_ALLOC_REPORT], 1, [report large allocation])])
+
+# Enable aggressive decommit by default
+AC_ARG_ENABLE([aggressive-decommit-by-default],
+              [AS_HELP_STRING([--enable-aggressive-decommit-by-default],
+                              [enable aggressive decommit by default])],
+              [enable_aggressive_decommit_by_default="$enableval"],
+              [enable_aggressive_decommit_by_default=no])
+AS_IF([test "x$enable_aggressive_decommit_by_default" = xyes],
+      [AC_DEFINE([ENABLE_AGGRESSIVE_DECOMMIT_BY_DEFAULT],
+                 1,
+                 [enable aggressive decommit by default])])
 
 # Write generated configuration file
 AC_CONFIG_FILES([Makefile
