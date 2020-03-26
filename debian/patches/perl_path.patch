@@ -1,0 +1,15 @@
+Description: Use system installed Perl
+ Don't let environment evaluate it but use system installed one.
+Author: Laszlo Boszormenyi (GCS) <gcs@debian.org>
+Last-Update: 2020-03-26
+
+---
+
+--- google-perftools-2.7.90.orig/src/pprof
++++ google-perftools-2.7.90/src/pprof
+@@ -1,4 +1,4 @@
+-#! /usr/bin/env perl
++#! /usr/bin/perl
+ 
+ # Copyright (c) 1998-2007, Google Inc.
+ # All rights reserved.
