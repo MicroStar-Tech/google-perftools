@@ -2,9 +2,9 @@ Source: google-perftools
 Section: libs
 Priority: optional
 Maintainer: Laszlo Boszormenyi (GCS) <gcs@debian.org>
-Build-Depends: debhelper (>= 11), libunwind-dev [amd64]
+Build-Depends: debhelper-compat (= 11), libunwind-dev [amd64]
 Build-Conflicts: autoconf2.13, automake1.4
-Standards-Version: 4.1.4
+Standards-Version: 4.5.0
 Homepage: https://github.com/gperftools/gperftools
 Vcs-Git: https://salsa.debian.org/debian/google-perftools.git
 Vcs-Browser: https://salsa.debian.org/debian/google-perftools
