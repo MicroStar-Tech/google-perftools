@@ -2,6 +2,7 @@ google-perftools (2.7.90-1) UNRELEASED; urgency=medium
 
   * New major upstream release candidate version.
   * Update patches.
+  * Update copyright file.
 
  -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Thu, 26 Mar 2020 14:03:42 +0000
 
