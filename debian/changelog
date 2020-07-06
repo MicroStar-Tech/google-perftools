@@ -1,7 +1,9 @@
-google-perftools (2.8-1) UNRELEASED; urgency=medium
+google-perftools (2.8-1) unstable; urgency=medium
 
   * New major upstream release:
     - fixes FTBFS with GCC 10 (closes: #957297).
+  * Add suggests of libgoogle-perftools-dev to google-perftools
+    (closes: #739571).
 
  -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Mon, 06 Jul 2020 17:03:50 +0200
 
