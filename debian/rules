@@ -36,6 +36,6 @@ endif # TEST_ARCHS
 endif # nocheck
 
 %:
-	dh $@ --list-missing
+	dh $@
 
 .PHONY: override_dh_auto_install override_dh_auto_test
