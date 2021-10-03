@@ -1,8 +1,9 @@
-google-perftools (2.9.1-1) UNRELEASED; urgency=medium
+google-perftools (2.9.1-1) unstable; urgency=medium
 
   * New upstream release.
   * Update watch file.
   * Update debhelper level to 13 .
+  * Update Standards-Version to 4.6.0 .
 
  -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 03 Oct 2021 21:20:23 +0200
 
