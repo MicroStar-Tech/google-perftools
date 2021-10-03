@@ -1,3 +1,9 @@
+google-perftools (2.9.1-1) UNRELEASED; urgency=medium
+
+  * New upstream release.
+
+ -- Laszlo Boszormenyi (GCS) <gcs@debian.org>  Sun, 03 Oct 2021 21:20:23 +0200
+
 google-perftools (2.8.1-1) unstable; urgency=medium
 
   * New upstream release.
@@ -269,7 +275,7 @@ google-perftools (0.98-1) unstable; urgency=low
 google-perftools (0.91-1) unstable; urgency=low
 
   * New upstream release
-  * The hosting site of the upstream has been changed. 
+  * The hosting site of the upstream has been changed.
 
  -- Daigo Moriwaki <daigo@debian.org>  Sat, 12 May 2007 15:56:25 +0900
 
@@ -285,14 +291,14 @@ google-perftools (0.8-4) unstable; urgency=low
 
   * Fixed FTBFS (alpha) again. debian/patches/01_configure.ac_alpha.diff is no
     longer provided. Instead, configure.ac and configure are directly updated
-    to be correctly built. (Closes: #387401)  
+    to be correctly built. (Closes: #387401)
 
  -- Daigo Moriwaki <daigo@debian.org>  Thu, 14 Sep 2006 01:18:10 +0900
 
 google-perftools (0.8-3) unstable; urgency=low
 
   * Use DEB_AUTO_UPDATE_AUTOCONF to rebuild configure from patched
-    configure.ac. 
+    configure.ac.
   * Fixed debian/watch file.
 
  -- Daigo Moriwaki <daigo@debian.org>  Thu, 14 Sep 2006 00:09:39 +0900
