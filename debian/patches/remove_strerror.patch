@@ -1,0 +1,52 @@
+Description: Remove strerror to avoid the deadlock due to re-entrance to malloc
+ https://github.com/gperftools/gperftools/issues/1371
+Author: Xuqing Liu (Microstar Tech) <ciwei100000@gmail.com>
+Last-Update: 2022-09-17
+
+
+--- a/src/memfs_malloc.cc
++++ b/src/memfs_malloc.cc
+@@ -187,7 +187,7 @@ void* HugetlbSysAllocator::AllocInternal(size_t size, size_t* actual_size,
+   int ret = ftruncate(hugetlb_fd_, hugetlb_base_ + size + extra);
+   if (ret != 0 && errno != EINVAL) {
+     Log(kLog, __FILE__, __LINE__,
+-        "ftruncate failed", strerror(errno));
++        "ftruncate failed", errno);
+     failed_ = true;
+     return NULL;
+   }
+@@ -203,7 +203,7 @@ void* HugetlbSysAllocator::AllocInternal(size_t size, size_t* actual_size,
+   if (result == reinterpret_cast<void*>(MAP_FAILED)) {
+     if (!FLAGS_memfs_malloc_ignore_mmap_fail) {
+       Log(kLog, __FILE__, __LINE__,
+-          "mmap failed (size, error)", size + extra, strerror(errno));
++          "mmap failed (size, error)", size + extra, errno);
+       failed_ = true;
+     }
+     return NULL;
+@@ -239,14 +239,14 @@ bool HugetlbSysAllocator::Initialize() {
+   if (hugetlb_fd == -1) {
+     Log(kLog, __FILE__, __LINE__,
+         "warning: unable to create memfs_malloc_path",
+-        path, strerror(errno));
++        path, errno);
+     return false;
+   }
+ 
+   // Cleanup memory on process exit
+   if (unlink(path) == -1) {
+     Log(kCrash, __FILE__, __LINE__,
+-        "fatal: error unlinking memfs_malloc_path", path, strerror(errno));
++        "fatal: error unlinking memfs_malloc_path", path, errno);
+     return false;
+   }
+ 
+@@ -254,7 +254,7 @@ bool HugetlbSysAllocator::Initialize() {
+   struct statfs sfs;
+   if (fstatfs(hugetlb_fd, &sfs) == -1) {
+     Log(kCrash, __FILE__, __LINE__,
+-        "fatal: error fstatfs of memfs_malloc_path", strerror(errno));
++        "fatal: error fstatfs of memfs_malloc_path", errno);
+     return false;
+   }
+   int64 page_size = sfs.f_bsize;

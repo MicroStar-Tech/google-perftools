@@ -1,2 +1,3 @@
 20121013-pprof.1.patch
 perl_path.patch
+remove_strerror.patch
